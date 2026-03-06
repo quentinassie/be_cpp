@@ -12,6 +12,10 @@ struct Nageoires
 {
     const float speedCoef;
 
-    Nageoires(float s);
-    ~Nageoires();  
-}
+    Nageoires(float sCoef);
+    ~Nageoires();
+
+    update(Bestiole* bestiole);
+};
+
+#endif

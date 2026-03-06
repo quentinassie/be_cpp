@@ -14,6 +14,8 @@ struct Yeux
     const float range;
     const float detectCoef;
 
-    Yeux(float angle, float r, float c);
+    Yeux(float a, float r, float dCoef);
     ~Yeux();  
-}
+};
+
+#endif

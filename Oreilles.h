@@ -13,6 +13,8 @@ struct Oreilles
     const float range;
     const float detectCoef;
 
-    Oreilles(float r, float c);
-    ~Oreilles();  
-}
+    Oreilles(float r, float dCoef);
+    ~Oreilles();
+};
+
+#endif

@@ -12,6 +12,10 @@ struct Camouflage
 {
     const float camoCoef;
 
-    Camouflage(float c);
-    ~Camouflage();  
-}
+    Camouflage(float cCoef);
+    ~Camouflage();
+
+    update(Bestiole* bestiole);
+};
+
+#endif

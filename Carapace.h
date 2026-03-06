@@ -13,6 +13,10 @@ struct Carapace
     const float resistCoef;
     const float slowCoef;
 
-    Carapace(float r, float s);
-    ~Carapace();  
-}
+    Carapace(float rCoef, float sCoef);
+    ~Carapace();
+
+    update(Bestiole* bestiole);
+};
+
+#endif
