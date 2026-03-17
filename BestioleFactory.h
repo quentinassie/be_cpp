@@ -9,6 +9,14 @@ struct BestioleFactory {
     // Dictionnaire de comportements disponibles
     std::map<std::string, std::shared_ptr<Comportement>> comportement_dict;
 
+    // distribution des comportements 
+    std::map<std::string, double> distributionComportements;
+
+    double tauxNaissanceGlobal;
+    int ageMax;
+    double probaClonage;
+    double probaCollisionFatale;
+
     // Plage de résistance
     double resistCoefMax;
     
@@ -35,9 +43,10 @@ struct BestioleFactory {
     // Plage de camouflage (0.0 = invisible, 1.0 = opaque) 
     double camouflageMin, camouflageMax;
 
-    BestioleFactory() ;
+    BestioleFactory(const std::string& configFile) ;
     ~BestioleFactory() ;
-    std::shared_ptr<Bestiole> createBestiole() ;
+    void chargerConfiguration(const std::string& configFile);
+    std::shared_ptr<Bestiole> createBestiole(std::string comportement) ;
     std::unique_ptr<Accessoire> choisirAccessoire();
     std::unique_ptr<Capteur> choisirCapteur();
     int randomInt(int min, int max);
