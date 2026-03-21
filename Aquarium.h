@@ -16,9 +16,9 @@ class Aquarium : public CImgDisplay
 {
 
 private :
-   Milieu       * flotte;
+   Milieu* flotte;
 
-   int            delay;
+   int delay;
 
 public :
    Aquarium( int width, int height, int _delay );
