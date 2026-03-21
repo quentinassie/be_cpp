@@ -41,10 +41,11 @@ int Milieu::nbVoisins(const Bestiole& b)
 {
    int nb = 0;
 
-   for (auto& autre : listeBestioles)
-      if (!(*autre == b) && b.jeTeVois(*autre))
+   for (auto& autre : listeBestioles){
+      if (!(*autre == b) && b.jeTeVois(*autre)){
          ++nb;
-
+      }
+   }
    return nb;
 }
 
@@ -63,4 +64,8 @@ std::vector<std::shared_ptr<Bestiole>> Milieu::getVoisins(const Bestiole& b)
    }
 
    return voisins;
+}
+
+std::vector<std::shared_ptr<Bestiole>> Milieu::getListBestioles() const{
+   return listeBestioles;
 }

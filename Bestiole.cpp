@@ -100,6 +100,13 @@ void Bestiole::bouge( int xLim, int yLim)
 void Bestiole::action( Milieu & monMilieu )
 {
    update(monMilieu);
+
+    for (auto& autre : monMilieu.getListBestioles()){
+      if (!(*autre == *this) && collision(*autre)){
+         orientation = orientation - (*autre).getOrientation();
+      }
+    }
+
    bouge(monMilieu.getWidth(), monMilieu.getHeight());
 }
 
@@ -122,8 +129,24 @@ bool operator==( const Bestiole & b1, const Bestiole & b2 )
 bool Bestiole::jeTeVois( const Bestiole & b ) const
 {
    double dist;
+   double angle;
+
    dist = std::sqrt( (x - b.x) * (x - b.x) + (y - b.y) * (y - b.y) );
-   return ( dist <= LIMITE_VUE );
+   angle = std::acos( ((x - b.x)*cos(orientation) - (y - b.y)*sin(orientation)) / dist);
+
+   //for (auto& capteur : capteurs){
+   //   if (capteur->detect(b, dist, angle)){
+   //      return true;
+   //   }
+   //}
+
+   return ( dist <= LIMITE_VUE );  //à modifier pour retourner "false" quand mis boucle capteurs
+}
+
+bool Bestiole::collision( const Bestiole & b ) const{
+   double dist;
+   dist = std::sqrt( (x - b.x) * (x - b.x) + (y - b.y) * (y - b.y) );
+   return ( dist <= AFF_SIZE );
 }
 
 void Bestiole::setVitesseMomentanee(double boost, int nbSteps){

@@ -28,6 +28,7 @@ public :
 
    int getWidth() const { return width; };
    int getHeight() const { return height; };
+   std::vector<std::shared_ptr<Bestiole>> getListBestioles() const;
 
    void step( void );
    
@@ -35,8 +36,8 @@ public :
       b->initCoords(width, height);
       listeBestioles.push_back(b);
    }
+   
    int nbVoisins( const Bestiole & b );
-
    std::vector<std::shared_ptr<Bestiole>> getVoisins(const Bestiole& b);
 
 

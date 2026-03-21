@@ -21,6 +21,7 @@ private:
    static int next;
    int age;
    shared_ptr<Comportement> comportement;
+
    // std::vector<std::unique_ptr<Capteur>> capteurs;
    // std::vector<std::unique_ptr<Accessoire>> accessoires;
 
@@ -46,6 +47,7 @@ public:
    void draw( UImg & support );
 
    bool jeTeVois( const Bestiole & b ) const;
+   bool collision( const Bestiole & b ) const;
 
    void initCoords( int xLim, int yLim );
 
