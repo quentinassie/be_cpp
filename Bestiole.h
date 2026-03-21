@@ -31,6 +31,8 @@ private:
    double cumulX, cumulY;
    double orientation;
    double vitesse;
+   double vitesseBoost = 0;
+   int stepsBoostRestants = 0;
 
 private:
    void bouge( int xLim, int yLim );
@@ -56,6 +58,8 @@ public:
    void setVitesse(double new_vitesse){
       vitesse = new_vitesse;
    }
+
+   void setVitesseMomentanee(double boost, int nbSteps);
 
    double getVitesse() const {
       return vitesse;

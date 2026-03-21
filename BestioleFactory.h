@@ -53,6 +53,7 @@ struct BestioleFactory {
 
     void chargerConfiguration(const std::string& configFile);
     std::shared_ptr<Bestiole> createBestiole(std::string comportement);
+    std::shared_ptr<Bestiole> createBestioleAleatoire();
 
     int randomInt(int min, int max);
     double randomDouble(double min, double max);

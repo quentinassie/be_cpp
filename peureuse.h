@@ -1,13 +1,14 @@
-#ifndef _GREGAIRE_H_
-#define _GREGAIRE_H_
+#ifndef _PEUREUSE_H_
+#define _PEUREUSE_H_
 
 #include "Comportement.h"
 #include "UImg.h"
 #include <array>
 
-class Gregaire : public Comportement {
+class Peureuse : public Comportement {
 
 public:
+
 
     void updateDirection(Bestiole& b, Milieu& m) override;
 

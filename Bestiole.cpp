@@ -22,7 +22,7 @@ Bestiole::Bestiole( void )
    cumulX = cumulY = 0.;
    orientation = static_cast<double>( rand() ) / RAND_MAX * 2. * M_PI;
    //vitesse = static_cast<double>( rand() ) / RAND_MAX * MAX_VITESSE;
-   vitesse = MAX_VITESSE/1.5;
+   vitesse = MAX_VITESSE/2;
 
    //couleur[0] = static_cast<int>( static_cast<double>( rand() ) / RAND_MAX * 230. );
    //ouleur[1] = static_cast<int>( static_cast<double>( rand() ) / RAND_MAX * 230. );
@@ -57,11 +57,19 @@ void Bestiole::initCoords( int xLim, int yLim )
    y = rand() % yLim;
 }
 
-void Bestiole::bouge( int xLim, int yLim )
+void Bestiole::bouge( int xLim, int yLim)
 {
+
+   double vitesseCourante = vitesse;
+
+   if (stepsBoostRestants > 0) {
+      vitesseCourante  *= vitesseBoost;
+      stepsBoostRestants--;
+   }
+
    double nx, ny;
-   double dx = cos( orientation ) * vitesse;
-   double dy = -sin( orientation ) * vitesse;
+   double dx = cos( orientation ) * vitesseCourante;
+   double dy = -sin( orientation ) * vitesseCourante;
    int cx, cy;
 
    cx = static_cast<int>( cumulX ); cumulX -= cx;
@@ -116,4 +124,9 @@ bool Bestiole::jeTeVois( const Bestiole & b ) const
    double dist;
    dist = std::sqrt( (x - b.x) * (x - b.x) + (y - b.y) * (y - b.y) );
    return ( dist <= LIMITE_VUE );
+}
+
+void Bestiole::setVitesseMomentanee(double boost, int nbSteps){
+   vitesseBoost = boost;
+   stepsBoostRestants = nbSteps;
 }

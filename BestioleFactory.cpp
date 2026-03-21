@@ -7,13 +7,16 @@
 #include "SimpleIni.h"
 #include "Bestiole.h"
 #include "gregaire.h"
+#include "peureuse.h"
 
 BestioleFactory::BestioleFactory(const std::string& configFile) {
     std::cout << "BestioleFactory created" << std::endl;
     chargerConfiguration(configFile);
 
     comportement_dict = {
-        {"gregaire", std::make_shared<Gregaire>()}
+        {"gregaire", std::make_shared<Gregaire>()},
+        {"peureuse", std::make_shared<Peureuse>()}
+
     };
 }
 
@@ -32,11 +35,14 @@ void BestioleFactory::chargerConfiguration(const std::string& configFile) {
 
     // Charger les distributions de comportements
     distributionComportements["gregaire"] =
-        std::stof(ini.GetValue("population.comportements", "gregaire", "1.0"));
+        std::stof(ini.GetValue("population.comportements", "gregaire", "0.1"));
+
+    distributionComportements["peureuse"] =
+        std::stof(ini.GetValue("population.comportements", "peureuse", "0.1"));
 
     // Charger le nombre de population initiale
     nombrePopulationInitiale =
-        std::stoi(ini.GetValue("population", "nombre", "3"));
+        std::stoi(ini.GetValue("population", "nombre", "5"));
 
     // Charger les paramètres généraux
     tauxNaissanceGlobal =
@@ -106,4 +112,25 @@ double BestioleFactory::randomDouble(double min, double max) {
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dist(min, max);
     return dist(gen);
+}
+
+std::shared_ptr<Bestiole> BestioleFactory::createBestioleAleatoire() {
+    double total = 0.0;
+
+    for (auto elem : distributionComportements) {
+        total += elem.second;
+    }
+
+    double tirage = randomDouble(0.0, total);
+    double somme = 0.0;
+
+    for (auto elem : distributionComportements) {
+        somme += elem.second;
+
+        if (tirage <= somme) {
+            return createBestiole(elem.first);
+        }
+    }
+
+    return createBestiole("gregaire");
 }

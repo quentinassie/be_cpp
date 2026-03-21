@@ -16,7 +16,7 @@ int main()
 
    for (int i = 0; i < factory.nombrePopulationInitiale; ++i)
    {
-      auto b = factory.createBestiole("gregaire");
+      auto b = factory.createBestioleAleatoire();
       ecosysteme.getMilieu().addMember(b);
    }
 
