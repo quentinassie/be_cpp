@@ -16,6 +16,8 @@ struct Yeux
 
     Yeux(float a, float r, float dCoef);
     ~Yeux();  
+
+    bool detect(const Bestiole & b, double dist, double a) const;
 };
 
 #endif

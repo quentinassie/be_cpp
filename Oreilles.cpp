@@ -9,3 +9,7 @@ Oreilles::Oreilles(float r, float cdCoef){
 Oreilles::~Oreilles(){
 
 }
+
+bool Oreilles::detect(const Bestiole & b, double dist, double angle) const{
+    return (dist <= range && detectCoef > b.camoCoef);
+}

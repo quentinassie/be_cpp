@@ -15,6 +15,8 @@ struct Oreilles
 
     Oreilles(float r, float dCoef);
     ~Oreilles();
+
+    bool detect(const Bestiole & b, double dist, double angle) const;
 };
 
 #endif
