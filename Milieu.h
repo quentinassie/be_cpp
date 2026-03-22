@@ -42,7 +42,7 @@ public :
 
    std::shared_ptr<Bestiole> getNearestNeighbour(const Bestiole& b);
 
-
+   
 };
 
 

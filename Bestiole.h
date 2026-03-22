@@ -34,7 +34,9 @@ private:
    double vitesse;
    double vitesseBoost = 0;
    int stepsBoostRestants = 0;
-   int collisionCooldown = 0;
+   bool vivante = true;
+   static double probaCollisionFatale; //collision mortelle
+
 
 private:
    void bouge( int xLim, int yLim );
@@ -89,6 +91,13 @@ public:
    int getY() const {
       return y;
    }
+
+   //collisions :
+   bool estVivante() const { return vivante; }
+   
+   void tuer() { vivante = false; }
+
+   static void setProbaCollisionFatale(double p);
 };
 
 #endif

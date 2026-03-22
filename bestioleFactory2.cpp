@@ -85,6 +85,7 @@ std::shared_ptr<Bestiole> BestioleFactory::createBestiole(std::string comporteme
         bestiole->comportement = comportement_dict[comportement];
     }
 }
+
 std::unique_ptr<Accessoire> BestioleFactory::choisirAccessoire(){
     int randomIndex = randomInt(0,3); // 0: Camouflage, 1: Carapace, 2: Nageoire, 3: Aucun
     if (randomIndex == 0) {

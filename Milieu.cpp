@@ -33,8 +33,21 @@ void Milieu::step(void)
    for (auto& b : listeBestioles)
    {
       b->action(*this);
+   }
+
+   listeBestioles.erase(
+      std::remove_if(listeBestioles.begin(), listeBestioles.end(),
+         [](const std::shared_ptr<Bestiole>& b) {
+            return !b->estVivante();
+         }),
+      listeBestioles.end()
+   );
+
+   for (auto& b : listeBestioles)
+   {
       b->draw(*this);
    }
+
 }
 
 int Milieu::nbVoisins(const Bestiole& b)

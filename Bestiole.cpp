@@ -10,6 +10,7 @@ const double Bestiole::MAX_VITESSE = 10.;
 const double Bestiole::LIMITE_VUE = 30.;
 
 int Bestiole::next = 0;
+double Bestiole::probaCollisionFatale = 1.0;
 
 Bestiole::Bestiole( void )
 {
@@ -68,8 +69,6 @@ void Bestiole::bouge( int xLim, int yLim)
       stepsBoostRestants--;
    }
 
-   collisionCooldown--;
-
    double nx, ny;
    double dx = cos( orientation ) * vitesseCourante;
    double dy = -sin( orientation ) * vitesseCourante;
@@ -86,7 +85,7 @@ void Bestiole::bouge( int xLim, int yLim)
       cumulX = 0.;
    }
    else {
-      x = static_cast<int>( nx );
+      x = static_cast<int>( nx );      
       cumulX += nx - x;
    }
 
@@ -100,20 +99,27 @@ void Bestiole::bouge( int xLim, int yLim)
    }
 }
 
-void Bestiole::action( Milieu & monMilieu )
+void Bestiole::action(Milieu & monMilieu)
 {
+   if (!estVivante()) return;
+
    update(monMilieu);
+   bouge(monMilieu.getWidth(), monMilieu.getHeight());
 
    for (auto& autre : monMilieu.getListBestioles()) {
-      if (!(*autre == *this) && collision(*autre)) {
+      if (autre.get() != this && autre->estVivante() && collision(*autre)) {
+
+         double r = static_cast<double>(rand()) / RAND_MAX;
+
+         if (r < probaCollisionFatale) {
+            tuer();
+            autre->tuer();
+         }
+
          orientation += M_PI;
-         setVitesseMomentanee(2,7);
-         collisionCooldown = 5;
          break;
       }
-  }
-
-   bouge(monMilieu.getWidth(), monMilieu.getHeight());
+   }
 }
 
 void Bestiole::draw( UImg & support )
@@ -136,7 +142,7 @@ bool Bestiole::jeTeVois( const Bestiole & b ) const
 {
    double dist;
    double angle;
-
+   
    dist = std::sqrt( (x - b.x) * (x - b.x) + (y - b.y) * (y - b.y) );
    angle = std::acos( ((x - b.x)*cos(orientation) - (y - b.y)*sin(orientation)) / dist);
 
@@ -153,10 +159,17 @@ bool Bestiole::collision( const Bestiole & b ) const{
    double dist;
    dist = std::sqrt( (x - b.x) * (x - b.x) + (y - b.y) * (y - b.y) );
 
-   return (collisionCooldown == 0 && dist <= AFF_SIZE );
+   return (dist <= AFF_SIZE );
 }
 
 void Bestiole::setVitesseMomentanee(double boost, int nbSteps){
    vitesseBoost = boost;
    stepsBoostRestants = nbSteps;
+}
+
+void Bestiole::setProbaCollisionFatale(double p)
+{
+   if (p < 0.0) p = 0.0;
+   if (p > 1.0) p = 1.0;
+   probaCollisionFatale = p;
 }
