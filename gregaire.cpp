@@ -25,5 +25,8 @@ void Gregaire::updateDirection(Bestiole& b, Milieu& m)
 }
 
 std::array<T,3> Gregaire :: getCouleur(){
-    return {249, 66, 158};
+    //return {249, 66, 158}; rose plus vif
+    return {254, 191, 210};
+
+    
 }

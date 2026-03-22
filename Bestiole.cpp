@@ -62,10 +62,13 @@ void Bestiole::bouge( int xLim, int yLim)
 
    double vitesseCourante = vitesse;
 
+
    if (stepsBoostRestants > 0) {
       vitesseCourante  *= vitesseBoost;
       stepsBoostRestants--;
    }
+
+   collisionCooldown--;
 
    double nx, ny;
    double dx = cos( orientation ) * vitesseCourante;
@@ -101,11 +104,14 @@ void Bestiole::action( Milieu & monMilieu )
 {
    update(monMilieu);
 
-    for (auto& autre : monMilieu.getListBestioles()){
-      if (!(*autre == *this) && collision(*autre)){
-         orientation = orientation - (*autre).getOrientation();
+   for (auto& autre : monMilieu.getListBestioles()) {
+      if (!(*autre == *this) && collision(*autre)) {
+         orientation += M_PI;
+         setVitesseMomentanee(2,7);
+         collisionCooldown = 5;
+         break;
       }
-    }
+  }
 
    bouge(monMilieu.getWidth(), monMilieu.getHeight());
 }
@@ -115,16 +121,16 @@ void Bestiole::draw( UImg & support )
    double xt = x + cos( orientation ) * AFF_SIZE / 2.1;
    double yt = y - sin( orientation ) * AFF_SIZE / 2.1;
 
-   //std::cout<<"couleur du comportement"<<comportement->getCouleur()[0]<<endl;
-
    support.draw_ellipse( x, y, AFF_SIZE, AFF_SIZE / 5., -orientation / M_PI * 180., comportement->getCouleur().data() );
    support.draw_circle( xt, yt, AFF_SIZE / 2., comportement->getCouleur().data() );
 }
+
 
 bool operator==( const Bestiole & b1, const Bestiole & b2 )
 {
    return ( b1.identite == b2.identite );
 }
+
 
 bool Bestiole::jeTeVois( const Bestiole & b ) const
 {
@@ -146,7 +152,8 @@ bool Bestiole::jeTeVois( const Bestiole & b ) const
 bool Bestiole::collision( const Bestiole & b ) const{
    double dist;
    dist = std::sqrt( (x - b.x) * (x - b.x) + (y - b.y) * (y - b.y) );
-   return ( dist <= AFF_SIZE );
+
+   return (collisionCooldown == 0 && dist <= AFF_SIZE );
 }
 
 void Bestiole::setVitesseMomentanee(double boost, int nbSteps){

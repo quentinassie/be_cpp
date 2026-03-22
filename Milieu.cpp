@@ -66,6 +66,34 @@ std::vector<std::shared_ptr<Bestiole>> Milieu::getVoisins(const Bestiole& b)
    return voisins;
 }
 
+
 std::vector<std::shared_ptr<Bestiole>> Milieu::getListBestioles() const{
    return listeBestioles;
+}
+
+
+
+shared_ptr<Bestiole> Milieu ::getNearestNeighbour(const Bestiole& b){
+
+   double nearest = 100000;
+   std::shared_ptr<Bestiole> target;
+
+   for (auto& other : listeBestioles) {
+
+      if (!(*other == b)) {
+         double distance = std::sqrt(
+            (other->getX() - b.getX()) * (other->getX() - b.getX()) +
+            (other->getY() - b.getY()) * (other->getY() - b.getY())
+        );
+
+        if (distance < nearest){
+         nearest = distance;
+         target = other;
+        }
+
+
+      }
+  }
+
+  return target;
 }

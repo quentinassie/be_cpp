@@ -40,7 +40,7 @@ public :
    int nbVoisins( const Bestiole & b );
    std::vector<std::shared_ptr<Bestiole>> getVoisins(const Bestiole& b);
 
-
+   std::shared_ptr<Bestiole> getNearestNeighbour(const Bestiole& b);
 
 
 };

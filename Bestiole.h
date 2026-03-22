@@ -34,6 +34,7 @@ private:
    double vitesse;
    double vitesseBoost = 0;
    int stepsBoostRestants = 0;
+   int collisionCooldown = 0;
 
 private:
    void bouge( int xLim, int yLim );

@@ -8,6 +8,7 @@
 #include "Bestiole.h"
 #include "gregaire.h"
 #include "peureuse.h"
+#include "kamikaze.h"
 
 BestioleFactory::BestioleFactory(const std::string& configFile) {
     std::cout << "BestioleFactory created" << std::endl;
@@ -15,7 +16,8 @@ BestioleFactory::BestioleFactory(const std::string& configFile) {
 
     comportement_dict = {
         {"gregaire", std::make_shared<Gregaire>()},
-        {"peureuse", std::make_shared<Peureuse>()}
+        {"peureuse", std::make_shared<Peureuse>()},
+        {"kamikaze", std::make_shared<Kamikaze>()}
 
     };
 }
@@ -39,6 +41,9 @@ void BestioleFactory::chargerConfiguration(const std::string& configFile) {
 
     distributionComportements["peureuse"] =
         std::stof(ini.GetValue("population.comportements", "peureuse", "0.1"));
+    
+    distributionComportements["kamikaze"] =
+        std::stof(ini.GetValue("population.comportements", "kamikaze", "0.1"));
 
     // Charger le nombre de population initiale
     nombrePopulationInitiale =
@@ -123,7 +128,7 @@ std::shared_ptr<Bestiole> BestioleFactory::createBestioleAleatoire() {
 
     double tirage = randomDouble(0.0, total);
     double somme = 0.0;
-
+    
     for (auto elem : distributionComportements) {
         somme += elem.second;
 
