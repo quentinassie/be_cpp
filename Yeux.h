@@ -5,6 +5,7 @@
 
 #include "Capteur.h"
 
+class Bestiole;
 //Structure Yeux : contient
 //   - un constructeur avec paramètres devant être appelé par la factory lors de la création de la bestiole
 //   - un destructeur 
@@ -12,15 +13,16 @@
 
 struct Yeux : public Capteur
 {
-    const float angle;
-    const float range;
-    const float detectCoef;
+    private:
+        float angle;
+        float range;
+        float detectCoef;
+    public :
+        Yeux(float a, float r, float dCoef);
+        ~Yeux();  
 
-    Yeux(float a, float r, float dCoef);
-    ~Yeux();  
-
-    std::unique_ptr<Capteur> clone() const override;
-    bool detect(const Bestiole & b, double dist, double a) const;
+        std::unique_ptr<Capteur> clone() const override;
+        bool detect(const Bestiole & b, double dist, double a) const override;
 };
 
 #endif

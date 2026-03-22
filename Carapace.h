@@ -5,6 +5,8 @@
 
 #include "Accessoire.h"
 
+class Bestiole;
+
 //Structure Carapace : contient
 //   - un constructeur avec paramètres devant être appelé par la factory lors de la création de la bestiole
 //   - un destructeur 
@@ -12,14 +14,16 @@
 
 struct Carapace : public Accessoire 
 {
-    const float resistCoef;
-    const float slowCoef;
+    private :
+        float resistCoef;
+        float slowCoef;
 
-    Carapace(float rCoef, float sCoef);
-    ~Carapace();
+    public:
+        Carapace(float rCoef, float sCoef);
+        ~Carapace();
 
     std::unique_ptr<Accessoire> clone() const override;
-    update(Bestiole* bestiole);
+    void update(Bestiole* bestiole) const override;
 };
 
 #endif

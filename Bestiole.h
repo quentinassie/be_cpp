@@ -23,8 +23,8 @@ private:
 
    static int next;
    int age;
+   
    shared_ptr<Comportement> comportement;
-
    std::vector<std::unique_ptr<Capteur>> capteurs;
    std::vector<std::unique_ptr<Accessoire>> accessoires;
 

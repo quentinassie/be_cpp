@@ -1,5 +1,5 @@
-main : main.cpp Aquarium.o Bestiole.o Milieu.o BestioleFactory.o gregaire.o peureuse.o kamikaze.o prevoyante.o
-	g++ -Wall -std=c++11 -o main main.cpp Aquarium.o Bestiole.o Milieu.o BestioleFactory.o gregaire.o peureuse.o kamikaze.o prevoyante.o -I . -lX11 -lpthread
+main : main.cpp Aquarium.o Bestiole.o Milieu.o BestioleFactory.o gregaire.o peureuse.o kamikaze.o prevoyante.o Camouflage.o Carapace.o Nageoires.o Oreilles.o Yeux.o
+	g++ -Wall -std=c++11 -o main main.cpp Aquarium.o Bestiole.o Milieu.o BestioleFactory.o gregaire.o peureuse.o kamikaze.o prevoyante.o Camouflage.o Carapace.o Nageoires.o Oreilles.o Yeux.o -I . -lX11 -lpthread
 
 Aquarium.o : Aquarium.h Aquarium.cpp
 	g++ -Wall -std=c++11 -c Aquarium.cpp -I .
@@ -19,6 +19,9 @@ gregaire.o : Comportement.h gregaire.h gregaire.cpp
 peureuse.o : Comportement.h peureuse.h peureuse.cpp
 	g++ -Wall -std=c++11 -c peureuse.cpp -I .
 
+prevoyante.o : Comportement.h prevoyante.h prevoyante.cpp
+	g++ -Wall -std=c++11 -c prevoyante.cpp -I .
+
 kamikaze.o : Comportement.h kamikaze.h kamikaze.cpp
 	g++ -Wall -std=c++11 -c kamikaze.cpp -I .
 
@@ -36,9 +39,6 @@ Oreilles.o : Capteur.h Oreilles.h Oreilles.cpp
 
 Yeux.o : Capteur.h Yeux.h Yeux.cpp
 	g++ -Wall -std=c++11 -c Yeux.cpp -I .
-
-prevoyante.o : Comportement.h prevoyante.h prevoyante.cpp
-	g++ -Wall -std=c++11 -c prevoyante.cpp -I .
 	
 clean:
 	rm -rf *.o main

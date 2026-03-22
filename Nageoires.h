@@ -5,6 +5,8 @@
 
 #include "Accessoire.h"
 
+class Bestiole;
+
 //Structure Nageoires : contient
 //   - un constructeur avec paramètres devant être appelé par la factory lors de la création de la bestiole
 //   - un destructeur 
@@ -12,13 +14,16 @@
 
 struct Nageoires : public Accessoire 
 {
-    const float speedCoef;
+    private:
+        float speedCoef;
 
-    Nageoires(float sCoef);
-    ~Nageoires();
+    public:
 
-    std::unique_ptr<Accessoire> clone() const override;
-    update(Bestiole* bestiole);
-};
+        Nageoires(float sCoef);
+        ~Nageoires();
+
+        std::unique_ptr<Accessoire> clone() const override;
+        void update(Bestiole* bestiole) const override;
+    };
 
 #endif

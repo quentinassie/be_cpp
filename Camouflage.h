@@ -5,6 +5,8 @@
 
 #include "Accessoire.h"
 
+class Bestiole;
+
 //Structure Camouflage : contient
 //   - un constructeur avec paramètres devant être appelé par la factory lors de la création de la bestiole
 //   - un destructeur 
@@ -12,13 +14,19 @@
 
 struct Camouflage : public Accessoire 
 {
-    const float camoCoef;
+    private :
+        float camoCoef;
 
-    Camouflage(float cCoef);
-    ~Camouflage();
+    public:
 
-    std::unique_ptr<Accessoire> clone() const override;
-    update(Bestiole* bestiole);
+        Camouflage(float cCoef);
+        ~Camouflage();
+
+        float getCamouflage() const;
+
+        std::unique_ptr<Accessoire> clone() const override;
+
+        void update(Bestiole* bestiole) const override;
 };
 
 #endif
