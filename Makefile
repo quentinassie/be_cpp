@@ -21,6 +21,21 @@ peureuse.o : Comportement.h peureuse.h peureuse.cpp
 
 kamikaze.o : Comportement.h kamikaze.h kamikaze.cpp
 	g++ -Wall -std=c++11 -c kamikaze.cpp -I .
-	
+
+Camouflage.o : Accessoire.h Camouflage.h Camouflage.cpp
+	g++ -Wall -std=c++11 -c Camouflage.cpp -I .
+
+Carapace.o : Accessoire.h Carapace.h Carapace.cpp
+	g++ -Wall -std=c++11 -c Carapace.cpp -I .
+
+Nageoires.o : Accessoire.h Nageoires.h Nageoires.cpp
+	g++ -Wall -std=c++11 -c Nageoires.cpp -I .
+
+Oreilles.o : Capteur.h Oreilles.h Oreilles.cpp
+	g++ -Wall -std=c++11 -c Oreilles.cpp -I .
+
+Yeux.o : Capteur.h Yeux.h Yeux.cpp
+	g++ -Wall -std=c++11 -c Yeux.cpp -I .
+
 clean:
 	rm -rf *.o main

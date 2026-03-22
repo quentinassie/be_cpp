@@ -2,6 +2,8 @@
 #define _BESTIOLES_H_
 
 #include "Comportement.h"
+#include "Capteur.h"
+#include "Accessoire.h"
 #include "UImg.h"
 
 #include <iostream>
@@ -11,8 +13,6 @@
 using namespace std;
 
 class Milieu;
-class Accessoire;
-class Capteur;
 
 class Bestiole
 {
@@ -25,8 +25,8 @@ private:
    int age;
    shared_ptr<Comportement> comportement;
 
-   //std::vector<std::unique_ptr<Capteur>> capteurs;
-   //std::vector<std::unique_ptr<Accessoire>> accessoires;
+   std::vector<std::unique_ptr<Capteur>> capteurs;
+   std::vector<std::unique_ptr<Accessoire>> accessoires;
 
 
 private:
