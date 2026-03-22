@@ -5,11 +5,14 @@
 #include "UImg.h"
 
 #include <iostream>
+#include <vector>
 #include <memory>
 
 using namespace std;
 
 class Milieu;
+class Accessoire;
+class Capteur;
 
 class Bestiole
 {
@@ -22,8 +25,8 @@ private:
    int age;
    shared_ptr<Comportement> comportement;
 
-   // std::vector<std::unique_ptr<Capteur>> capteurs;
-   // std::vector<std::unique_ptr<Accessoire>> accessoires;
+   //std::vector<std::unique_ptr<Capteur>> capteurs;
+   //std::vector<std::unique_ptr<Accessoire>> accessoires;
 
 
 private:
