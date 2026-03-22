@@ -2,9 +2,12 @@
 #define _BESTIOLES_H_
 
 #include "Comportement.h"
+#include "Capteur.h"
+#include "Accessoire.h"
 #include "UImg.h"
 
 #include <iostream>
+#include <vector>
 #include <memory>
 
 using namespace std;
@@ -22,8 +25,8 @@ private:
    int age;
    shared_ptr<Comportement> comportement;
 
-   // std::vector<std::unique_ptr<Capteur>> capteurs;
-   // std::vector<std::unique_ptr<Accessoire>> accessoires;
+   std::vector<std::unique_ptr<Capteur>> capteurs;
+   std::vector<std::unique_ptr<Accessoire>> accessoires;
 
 
 private:

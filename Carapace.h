@@ -3,12 +3,14 @@
 #include "UImg.h"
 #include <iostream>
 
+#include "Accessoire.h"
+
 //Structure Carapace : contient
 //   - un constructeur avec paramètres devant être appelé par la factory lors de la création de la bestiole
 //   - un destructeur 
 //La classe Bestiole a accés aux attribus pour les méthodes jeTeVois et update
 
-struct Carapace
+struct Carapace : public Accessoire 
 {
     const float resistCoef;
     const float slowCoef;
@@ -16,6 +18,7 @@ struct Carapace
     Carapace(float rCoef, float sCoef);
     ~Carapace();
 
+    std::unique_ptr<Accessoire> clone() const override;
     update(Bestiole* bestiole);
 };
 

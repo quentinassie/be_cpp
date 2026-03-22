@@ -3,12 +3,14 @@
 #include "UImg.h"
 #include <iostream>
 
+#include "Capteur.h"
+
 //Structure Yeux : contient
 //   - un constructeur avec paramètres devant être appelé par la factory lors de la création de la bestiole
 //   - un destructeur 
 //La classe Bestiole a accés aux attribus pour les méthodes jeTeVois et update
 
-struct Yeux
+struct Yeux : public Capteur
 {
     const float angle;
     const float range;
@@ -17,6 +19,7 @@ struct Yeux
     Yeux(float a, float r, float dCoef);
     ~Yeux();  
 
+    std::unique_ptr<Capteur> clone() const override;
     bool detect(const Bestiole & b, double dist, double a) const;
 };
 
