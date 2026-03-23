@@ -20,6 +20,7 @@ struct Nageoires : public Accessoire
     public:
 
         Nageoires(float sCoef);
+        Nageoires(const Nageoires& other);
         ~Nageoires();
 
         std::unique_ptr<Accessoire> clone() const override;

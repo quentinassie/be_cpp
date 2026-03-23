@@ -20,6 +20,7 @@ struct Oreilles : public Capteur
 
     public :
         Oreilles(float r, float dCoef);
+        Oreilles(const Oreilles& o);
         ~Oreilles();
 
         std::unique_ptr<Capteur> clone() const override;

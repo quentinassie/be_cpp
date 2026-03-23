@@ -19,6 +19,7 @@ struct Yeux : public Capteur
         float detectCoef;
     public :
         Yeux(float a, float r, float dCoef);
+        Yeux(const Yeux& y);
         ~Yeux();  
 
         std::unique_ptr<Capteur> clone() const override;

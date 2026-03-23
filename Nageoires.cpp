@@ -5,6 +5,9 @@
 Nageoires::Nageoires(float sCoef){
     speedCoef = sCoef;
 }
+Nageoires::Nageoires(const Nageoires& other){
+    speedCoef = other.speedCoef;
+}
 
 Nageoires::~Nageoires(){
     
@@ -12,7 +15,7 @@ Nageoires::~Nageoires(){
 
 std::unique_ptr<Accessoire> Nageoires::clone() const
 {
-    return std::unique_ptr<Accessoire>(new Nageoires(*this));
+    return std::make_unique<Nageoires>(*this);;
 }
 
 void Nageoires::update(Bestiole* bestiole) const {

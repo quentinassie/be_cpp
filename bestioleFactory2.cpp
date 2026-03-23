@@ -8,10 +8,10 @@ BestioleFactory::BestioleFactory(const std::string& configFile){
     std::cout<< "BestioleFactory created" << std::endl;
     chargerConfiguration(configFile);
     comportement_dict={
-        {"gregaire", std::shared_ptr<Comportement>(new Gregaire())},
-        {"peureuse", std::shared_ptr<Comportement>(new Peureuse())},
-        {"kamikaze", std::shared_ptr<Comportement>(new Kamikaze())},
-        {"prevoyante", std::shared_ptr<Comportement>(new Prevoyante())},
+        {"gregaire", std::shared_ptr<Comportement>( std::make_shared<Gregaire>())},
+        {"peureuse", std::shared_ptr<Comportement>(std::make_shared<Peureuse>())},
+        {"kamikaze", std::shared_ptr<Comportement>(std::make_shared<Kamikaze>())},
+        {"prevoyante", std::shared_ptr<Comportement>(std::make_shared<Prevoyante>())},
     }
 }
 
@@ -69,21 +69,45 @@ void GestionNaissances::chargerConfiguration(const std::string& configFile) {
 }
 
 std::shared_ptr<Bestiole> BestioleFactory::createBestiole(std::string comportement){
-    std::shared_ptr<Bestiole> bestiole = new Bestiole();
-    // choisir un accessoire aléatoire
-    std::unique_ptr<Accessoire> accessoire = choisirAccessoire();
-    if (accessoire) {
-        bestiole->Accessoires.pushback(std::move(accessoire));
+    std::shared_ptr<Bestiole> bestiole = std::make_shared<Bestiole>();
+    
+    // choisir des accessoires aléatoires
+    int numAccessoires = randomInt(0, 3); // 0, 1, 2 ou 3 accessoires
+    for (int i = 0; i < numAccessoires; ++i) {
+        std::unique_ptr<Accessoire> accessoire = choisirAccessoire();
+        if (accessoire and find(accessoire, bestiole->Accessoires)==false) {
+            bestiole->Accessoires.push_back(std::move(accessoire));
+        }
     }
     // choisir un capteur aléatoire
-    std::unique_ptr<Capteur> capteur = choisirCapteur();
-    if (capteur) {
-        bestiole->Capteurs.pushback(std::move(capteur));
+    int numCapteurs = randomInt(0, 2); // 0, 1 ou 2 capteurs
+    for (int i =0 ; i< numCapteurs; ++i){
+        std::unique_ptr<Capteur> capteur = choisirCapteur();
+        if (capteur and find(capteur, bestiole->Capteurs)==false) {
+            bestiole->Capteurs.push_back(std::move(capteur));
+        }
     }
     // assigner le comportement
     if (comportement_dict.find(comportement) != comportement_dict.end()) {
         bestiole->comportement = comportement_dict[comportement];
     }
+}
+
+bool BestioleFactory::find(std::unique_ptr<Accessoire>& accessoire, std::vector<std::unique_ptr<Accessoire>>& accessoires){
+    for (const auto& acc : accessoires) {
+        if (typeid(*acc) == typeid(*accessoire)) {
+            return true; // Accessoire du même type trouvé
+        }
+    }
+    return false; // Aucun accessoire du même type trouvé
+}
+bool BestioleFactory::find(std::unique_ptr<Capteur>& capteur, std::vector<std::unique_ptr<Capteur>>& capteurs){
+    for (const auto& c : capteurs) {
+        if (typeid(*c) == typeid(*capteur)) {
+            return true; // Capteur du même type trouvé
+        }
+    }
+    return false; // Aucun capteur du même type trouvé
 }
 
 std::unique_ptr<Accessoire> BestioleFactory::choisirAccessoire(){

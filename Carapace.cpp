@@ -6,6 +6,10 @@ Carapace::Carapace(float rCoef, float sCoef){
     resistCoef = rCoef;
     slowCoef = sCoef;
 }
+Carapace::Carapace(const Carapace& other){
+    resistCoef = other.resistCoef;
+    slowCoef = other.slowCoef;
+}
 
 Carapace::~Carapace(){
     
@@ -13,7 +17,7 @@ Carapace::~Carapace(){
 
 std::unique_ptr<Accessoire> Carapace::clone() const
 {
-    return std::unique_ptr<Accessoire>(new Carapace(*this));
+    return std::make_unique<Carapace>(*this);;
 }
 
 void Carapace::update(Bestiole* bestiole) const {

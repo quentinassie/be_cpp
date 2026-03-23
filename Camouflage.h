@@ -20,6 +20,7 @@ struct Camouflage : public Accessoire
     public:
 
         Camouflage(float cCoef);
+        Camouflage(const Camouflage& other);
         ~Camouflage();
 
         float getCamouflage() const;

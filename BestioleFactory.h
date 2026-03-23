@@ -54,6 +54,8 @@ struct BestioleFactory {
     void chargerConfiguration(const std::string& configFile);
     std::shared_ptr<Bestiole> createBestiole(std::string comportement);
     std::shared_ptr<Bestiole> createBestioleAleatoire();
+    bool find(std::unique_ptr<Accessoire>& accessoire, std::vector<std::unique_ptr<Accessoire>>& accessoires);
+    bool find(std::unique_ptr<Capteur>& capteur, std::vector<std::unique_ptr<Capteur>>& capteurs);
 
     int randomInt(int min, int max);
     double randomDouble(double min, double max);

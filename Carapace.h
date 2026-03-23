@@ -20,6 +20,7 @@ struct Carapace : public Accessoire
 
     public:
         Carapace(float rCoef, float sCoef);
+        Carapace(const Carapace& other);
         ~Carapace();
 
     std::unique_ptr<Accessoire> clone() const override;

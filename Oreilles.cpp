@@ -7,13 +7,18 @@ Oreilles::Oreilles(float r, float cdCoef){
     detectCoef = cdCoef;
 }
 
+Oreilles::Oreilles(const Oreilles& o){
+    range = o.range;
+    detectCoef = o.detectCoef;
+}
+
 Oreilles::~Oreilles(){
 
 }
 
 std::unique_ptr<Capteur> Oreilles::clone() const
 {
-    return std::unique_ptr<Capteur>(new Oreilles(*this));
+    return std::make_unique<Oreilles>(*this);;
 }
 
 bool Oreilles::detect(const Bestiole & b, double dist, double angle) const {

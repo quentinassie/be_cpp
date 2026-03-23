@@ -7,6 +7,11 @@ Yeux::Yeux(float a, float r, float dCoef){
     range = r;
     detectCoef = dCoef;
 }
+Yeux::Yeux(const Yeux& y){
+    angle = y.angle;
+    range = y.range;
+    detectCoef = y.detectCoef;
+}
 
 Yeux::~Yeux(){
     
@@ -14,7 +19,7 @@ Yeux::~Yeux(){
 
 std::unique_ptr<Capteur> Yeux::clone() const
 {
-    return std::unique_ptr<Capteur>(new Yeux(*this));
+    return std::make_unique<Yeux>(*this);
 }
 
 bool Yeux::detect(const Bestiole & b, double dist, double a) const {
