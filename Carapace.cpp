@@ -17,7 +17,7 @@ Carapace::~Carapace(){
 
 std::unique_ptr<Accessoire> Carapace::clone() const
 {
-    return std::make_unique<Carapace>(*this);;
+    return std::make_unique<Carapace>(*this);
 }
 
 void Carapace::update(Bestiole* bestiole) const {
