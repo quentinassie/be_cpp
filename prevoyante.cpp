@@ -55,5 +55,5 @@ void Prevoyante::updateDirection(Bestiole& b, Milieu& m)
 
 
 std::array<T,3> Prevoyante :: getCouleur(){
-    return {199, 207, 0}; //vert buisson d'été
+    return {1, 215, 88}; //vert buisson d'été
 }
