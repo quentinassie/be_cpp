@@ -7,6 +7,7 @@
 
 #include <iostream>
 #include <vector>
+#include <fstream>
 
 using namespace std;
 
@@ -21,6 +22,9 @@ private :
    int                     width, height;
    std::vector<std::shared_ptr<Bestiole>> listeBestioles;
    std::vector<std::shared_ptr<Bestiole>> nouvellesBestioles;
+
+   int num_step;
+   std::ofstream fichier;
    
    BestioleFactory& factory;
 

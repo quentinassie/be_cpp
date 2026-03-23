@@ -5,6 +5,16 @@
 #include <cmath>
 #include <cstring>
 
+#include <gregaire.h>
+#include <peureuse.h>
+#include <kamikaze.h>
+#include <prevoyante.h>
+#include <Camouflage.h>
+#include <Carapace.h>
+#include <Nageoires.h>
+#include <Yeux.h>
+#include <Oreilles.h>
+
 const double Bestiole::AFF_SIZE = 8.;
 const double Bestiole::MAX_VITESSE = 10.;
 const double Bestiole::LIMITE_VUE = 30.;
@@ -186,4 +196,70 @@ void Bestiole::setProbaCollisionFatale(double p)
    if (p < 0.0) p = 0.0;
    if (p > 1.0) p = 1.0;
    probaCollisionFatale = p;
+}
+
+//if comportements, accessoires, capteurs
+bool Bestiole::estGregaire() {
+   return dynamic_cast<Gregaire*>(comportement.get()) != nullptr;
+}
+
+bool Bestiole::estPeureuse() {
+   return dynamic_cast<Peureuse*>(comportement.get()) != nullptr;
+}
+
+bool Bestiole::estKamikaze() {
+   return dynamic_cast<Kamikaze*>(comportement.get()) != nullptr;
+}
+
+bool Bestiole::estPrevoyante() {
+   return dynamic_cast<Prevoyante*>(comportement.get()) != nullptr;
+}
+
+bool Bestiole::estPersMulti(){
+   return personnaliteMultiple; 
+}
+
+bool Bestiole::aCamouflage(){
+   for (const auto& a : accessoires){
+      if (dynamic_cast<Camouflage*>(a.get()) != nullptr){
+         return true;
+      }
+   }
+   return false;
+}
+
+bool Bestiole::aCarapace(){
+   for (const auto& a : accessoires){
+      if (dynamic_cast<Carapace*>(a.get()) != nullptr){
+         return true;
+      }
+   }
+   return false;
+}
+
+bool Bestiole::aNageoires(){
+   for (const auto& a : accessoires){
+      if (dynamic_cast<Nageoires*>(a.get()) != nullptr){
+         return true;
+      }
+   }
+   return false;
+}
+
+bool Bestiole::aYeux(){
+   for (const auto& c : capteurs){
+      if (dynamic_cast<Yeux*>(c.get()) != nullptr){
+         return true;
+      }
+   }
+   return false;
+}
+
+bool Bestiole::aOreilles(){
+   for (const auto& c : capteurs){
+      if (dynamic_cast<Oreilles*>(c.get()) != nullptr){
+         return true;
+      }
+   }
+   return false;
 }

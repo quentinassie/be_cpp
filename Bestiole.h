@@ -24,6 +24,7 @@ private:
    static int next;
    int age;
    
+   bool personnaliteMultiple=false;
    shared_ptr<Comportement> comportement;
    std::vector<std::unique_ptr<Capteur>> capteurs;
    std::vector<std::unique_ptr<Accessoire>> accessoires;
@@ -102,8 +103,22 @@ public:
 
    static void setProbaCollisionFatale(double p);
 
-   // clonage
+   //clonage
    std::shared_ptr<Bestiole> clone() const { return std::make_shared<Bestiole>(*this); }
+
+   //if comportements, accessoires, capteurs
+   bool estGregaire();
+   bool estPeureuse();
+   bool estKamikaze();
+   bool estPrevoyante();
+   bool estPersMulti();
+
+   bool aCamouflage();
+   bool aCarapace();
+   bool aNageoires();
+   bool aYeux();
+   bool aOreilles();
+
 };
 
 #endif

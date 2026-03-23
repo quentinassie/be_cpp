@@ -14,6 +14,12 @@ Milieu::Milieu( int _width, int _height , BestioleFactory& _factory) : UImg( _wi
 
    cout << "const Milieu" << endl;
 
+   num_step = 0;
+   fichier.open("simulation.csv");
+
+    fichier << "num_step,gregaire,peureuse,kamikaze,prevoyante,pers_multi,"
+            << "camouflage,carapace,nageoires,yeux,oreilles\n";
+
    std::srand( time(NULL) );
 
 }
@@ -30,6 +36,20 @@ Milieu::~Milieu( void )
 void Milieu::step(void)
 {
    cimg_forXY(*this, x, y) fillC(x, y, 0, white[0], white[1], white[2]);
+
+   int nbGregaire = 0;
+   int nbPeureuse = 0;
+   int nbKamikaze = 0;
+   int nbPrevoyante = 0;
+   int nbPersMulti = 0;
+
+   int nbCamouflage = 0;
+   int nbCarapace = 0;
+   int nbNageoires = 0;
+   int nbYeux = 0;
+   int nbOreilles = 0;
+
+   int nb_total = listeBestioles.size();
 
    for (auto& b : listeBestioles)
    {
@@ -53,7 +73,7 @@ void Milieu::step(void)
       std::cout<<"naissance d'une bestiole :"<<neeBestiole<<endl;
    }
 
-   // Ajout dan liste des bestioles
+   // Ajout dans liste des bestioles
    for (auto& b : nouvellesBestioles)
    {
       addMember(b);
@@ -69,11 +89,46 @@ void Milieu::step(void)
       listeBestioles.end()
    );
 
+
+   //recense dans le fichier "simulation" puis dessine les bestioles
    for (auto& b : listeBestioles)
    {
+      // Comportements
+      if (b->estGregaire())     nbGregaire++;
+      if (b->estPeureuse())     nbPeureuse++;
+      if (b->estKamikaze())     nbKamikaze++;
+      if (b->estPrevoyante())   nbPrevoyante++;
+      if (b->estPersMulti())    nbPersMulti++;
+
+      // Accessoires & Capteurs
+      if (b->aCamouflage())     nbCamouflage++;
+      if (b->aCarapace())       nbCarapace++;
+      if (b->aNageoires())      nbNageoires++;
+      if (b->aYeux())           nbYeux++;
+      if (b->aOreilles())       nbOreilles++;
+
       b->draw(*this);
    }
 
+   double pctGregaire   = 100.0 * nbGregaire / nb_total;
+   double pctPeureuse   = 100.0 * nbPeureuse / nb_total;
+   double pctKamikaze   = 100.0 * nbKamikaze / nb_total;
+   double pctPrevoyante = 100.0 * nbPrevoyante / nb_total;
+   double pctPersMulti  = 100.0 * nbPersMulti / nb_total;
+
+   double pctCamouflage = 100.0 * nbCamouflage / nb_total;
+   double pctCarapace   = 100.0 * nbCarapace / nb_total;
+   double pctNageoires  = 100.0 * nbNageoires / nb_total;
+   double pctYeux       = 100.0 * nbYeux / nb_total;
+   double pctOreilles   = 100.0 * nbOreilles / nb_total;
+
+   fichier << num_step << ","
+        << pctGregaire << "," << pctPeureuse << "," << pctKamikaze << ","
+        << pctPrevoyante << "," << pctPersMulti << ","
+        << pctCamouflage << "," << pctCarapace << "," << pctNageoires
+        << pctYeux << "," << pctOreilles << "\n";
+   
+   num_step++;
 }
 
 int Milieu::nbVoisins(const Bestiole& b)
