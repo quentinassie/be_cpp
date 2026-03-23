@@ -17,9 +17,8 @@ struct BestioleFactory {
     // Paramètres généraux
     int nombrePopulationInitiale;
     double tauxNaissanceGlobal;
-    int ageMax;
     double probaClonage;
-    double probaCollisionFatale;
+    
 
     // Plage de résistance
     double resistCoefMax;

@@ -126,6 +126,7 @@ void Bestiole::bouge( int xLim, int yLim)
 void Bestiole::action(Milieu & monMilieu)
 {
    if (!estVivante()) return;
+   if (++age >= ageMax) tuer(); // Vieillir et mourir si âge maximum atteint
 
    update(monMilieu);
    bouge(monMilieu.getWidth(), monMilieu.getHeight());
@@ -263,3 +264,5 @@ bool Bestiole::aOreilles(){
    }
    return false;
 }
+
+

@@ -40,6 +40,7 @@ private:
    int stepsBoostRestants = 0;
    bool vivante = true;
    static double probaCollisionFatale; //collision mortelle
+   static double ageMax; //âge maximum 
 
 
 private:
