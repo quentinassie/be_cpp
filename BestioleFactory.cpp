@@ -56,7 +56,7 @@ void BestioleFactory::chargerConfiguration(const std::string& configFile) {
 
     // Charger les paramètres généraux
     tauxNaissanceGlobal =
-        std::stof(ini.GetValue("general", "naissance", "0.8"));
+        std::stof(ini.GetValue("general", "naissance", "0.1"));
     ageMax =
         std::stoi(ini.GetValue("general", "age_max", "80"));
     probaClonage =

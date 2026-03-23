@@ -101,6 +101,9 @@ public:
    void tuer() { vivante = false; }
 
    static void setProbaCollisionFatale(double p);
+
+   // clonage
+   std::shared_ptr<Bestiole> clone() const { return std::make_shared<Bestiole>(*this); }
 };
 
 #endif

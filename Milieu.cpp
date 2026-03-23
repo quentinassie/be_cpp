@@ -2,13 +2,14 @@
 
 #include <cstdlib>
 #include <ctime>
+#include "BestioleFactory.h"
 
 
 const T    Milieu::white[] = { (T)255, (T)255, (T)255 };
 
 
-Milieu::Milieu( int _width, int _height ) : UImg( _width, _height, 1, 3 ),
-                                            width(_width), height(_height)
+Milieu::Milieu( int _width, int _height , BestioleFactory& _factory) : UImg( _width, _height, 1, 3 ),
+                                            width(_width), height(_height), factory(_factory)
 {
 
    cout << "const Milieu" << endl;
@@ -33,8 +34,33 @@ void Milieu::step(void)
    for (auto& b : listeBestioles)
    {
       b->action(*this);
+
+      //clonage automatique
+      if (b->estVivante() && static_cast<double>(std::rand()) / RAND_MAX < factory.probaClonage)
+      {
+         auto clonee = b->clone();
+         //clonee->initCoords(width, height);
+         nouvellesBestioles.push_back(clonee);
+      }
    }
 
+   // Naissance spontanée dans le vivarium
+   if (static_cast<double>(std::rand()) / RAND_MAX < factory.tauxNaissanceGlobal)
+   {
+      auto neeBestiole = factory.createBestioleAleatoire();
+      neeBestiole->initCoords(width, height);
+      nouvellesBestioles.push_back(neeBestiole);
+      std::cout<<"naissance d'une bestiole :"<<neeBestiole<<endl;
+   }
+
+   // Ajout dan liste des bestioles
+   for (auto& b : nouvellesBestioles)
+   {
+      addMember(b);
+      nouvellesBestioles.erase(nouvellesBestioles.begin(), nouvellesBestioles.end());
+   }
+
+   //supprime bestioles marquées non vivante
    listeBestioles.erase(
       std::remove_if(listeBestioles.begin(), listeBestioles.end(),
          [](const std::shared_ptr<Bestiole>& b) {
@@ -109,4 +135,10 @@ shared_ptr<Bestiole> Milieu ::getNearestNeighbour(const Bestiole& b){
   }
 
   return target;
+}
+
+void Milieu::naissanceExterieure(){
+   auto b = factory.createBestioleAleatoire();
+   b->initCoords(width, height);
+   addMember(b);
 }

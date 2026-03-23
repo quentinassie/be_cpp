@@ -10,7 +10,7 @@ using namespace cimg_library;
 
 
 class Milieu;
-
+class BestioleFactory;
 
 class Aquarium : public CImgDisplay
 {
@@ -21,7 +21,7 @@ private :
    int delay;
 
 public :
-   Aquarium( int width, int height, int _delay );
+   Aquarium( int width, int height, int _delay , BestioleFactory& factory);
    ~Aquarium( void );
 
    Milieu & getMilieu( void ) { return *flotte; }

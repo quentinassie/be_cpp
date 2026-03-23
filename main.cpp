@@ -11,9 +11,9 @@ using namespace std;
 
 int main()
 {
-   Aquarium ecosysteme(640, 480, 30);
    BestioleFactory factory("config.ini");
-
+   Aquarium ecosysteme(640, 480, 30, factory);
+   
    for (int i = 0; i < factory.nombrePopulationInitiale; ++i)
    {
       auto b = factory.createBestioleAleatoire();

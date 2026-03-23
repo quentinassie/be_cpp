@@ -35,16 +35,30 @@ Bestiole::Bestiole( const Bestiole & b )
    identite = ++next;
    age = b.age;
 
-   cout << "const Bestiole (" << identite << ") par copie" << endl;
-
    x = b.x;
    y = b.y;
    cumulX = b.cumulX;
    cumulY = b.cumulY;
    orientation = b.orientation;
    vitesse = b.vitesse;
+   vitesseBoost = b.vitesseBoost;
+   stepsBoostRestants = b.stepsBoostRestants;
+   vivante = b.vivante;
 
    comportement = b.comportement;
+
+   {
+      cout << "const Bestiole (" << identite << ") par copie" << endl;
+   
+      for (const auto& capteur : b.capteurs) {
+         capteurs.push_back(capteur->clone());
+      }
+   
+      for (const auto& accessoire : b.accessoires) {
+         accessoires.push_back(accessoire->clone());
+      }
+   }
+
 }
 
 Bestiole::~Bestiole( void )

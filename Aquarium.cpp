@@ -2,8 +2,9 @@
 
 #include "Milieu.h"
 
+class BestioleFactory;
 
-Aquarium::Aquarium( int width, int height, int _delay ) : CImgDisplay(), delay( _delay )
+Aquarium::Aquarium( int width, int height, int _delay, BestioleFactory& factory ) : CImgDisplay(), delay( _delay )
 {
 
    int         screenWidth = 1280; //screen_width();
@@ -12,7 +13,7 @@ Aquarium::Aquarium( int width, int height, int _delay ) : CImgDisplay(), delay( 
 
    cout << "const Aquarium" << endl;
 
-   flotte = new Milieu( width, height );
+   flotte = new Milieu( width, height, factory);
    assign( *flotte, "Simulation d'ecosysteme" );
 
    move( static_cast<int>((screenWidth-width)/2), static_cast<int>((screenHeight-height)/2) );

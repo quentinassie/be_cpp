@@ -4,13 +4,13 @@
 
 #include "UImg.h"
 #include "Bestiole.h"
-#include "BestioleFactory.h"
 
 #include <iostream>
 #include <vector>
 
 using namespace std;
 
+class BestioleFactory;
 
 class Milieu : public UImg
 {
@@ -20,10 +20,13 @@ private :
 
    int                     width, height;
    std::vector<std::shared_ptr<Bestiole>> listeBestioles;
+   std::vector<std::shared_ptr<Bestiole>> nouvellesBestioles;
+   
+   BestioleFactory& factory;
 
 public :
 
-   Milieu( int _width, int _height );
+   Milieu( int _width, int _height, BestioleFactory& _factory);
    ~Milieu( void );
 
    int getWidth() const { return width; };
@@ -42,7 +45,7 @@ public :
 
    std::shared_ptr<Bestiole> getNearestNeighbour(const Bestiole& b);
 
-   
+   void naissanceExterieure();
 };
 
 
