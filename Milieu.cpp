@@ -193,7 +193,7 @@ std::vector<std::shared_ptr<Bestiole>> Milieu::getListBestioles() const{
 shared_ptr<Bestiole> Milieu ::getNearestNeighbour(const Bestiole& b){
 
    double nearest = 100000;
-   std::shared_ptr<Bestiole> target;
+   std::shared_ptr<Bestiole> target = nullptr;
 
    for (auto& other : listeBestioles) {
 
