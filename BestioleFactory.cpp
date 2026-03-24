@@ -10,6 +10,9 @@
 #include "peureuse.h"
 #include "kamikaze.h"
 #include "prevoyante.h"
+#include "Camouflage.h"
+#include "Carapace.h"
+#include "Nageoires.h"
 
 BestioleFactory::BestioleFactory(const std::string& configFile) {
     std::cout << "BestioleFactory created" << std::endl;
@@ -83,6 +86,14 @@ void BestioleFactory::chargerConfiguration(const std::string& configFile) {
     camouflageMax =
         std::stof(ini.GetValue("camouflage", "max", "1.0"));
 
+    carapaceSlowMax =
+        std::stof(ini.GetValue("carapace", "slow", "0.3"));
+    carapaceResistCoefMax =
+        std::stof(ini.GetValue("carapace", "slow", "3.0"));
+
+    nageoiresSpeedCoefMax =
+        std::stof(ini.GetValue("nageoires", "max", "2.0"));
+
     detectVisionMin =
         std::stof(ini.GetValue("detect_vision", "min", "0"));
     detectVisionMax =
@@ -102,6 +113,17 @@ void BestioleFactory::chargerConfiguration(const std::string& configFile) {
 std::shared_ptr<Bestiole> BestioleFactory::createBestiole(std::string comportement) {
     auto bestiole = std::make_shared<Bestiole>();
 
+    // choisir des accessoires aléatoires
+    int numAccessoires = randomInt(0, 3); // 0, 1, 2 ou 3 accessoires
+    for (int i = 0; i < numAccessoires; ++i) {
+            std::unique_ptr<Accessoire> accessoire = choisirAccessoire();
+            if (accessoire && !find(accessoire, bestiole->getAccessoires())) {
+                bestiole->getAccessoires().push_back(std::move(accessoire));
+            }
+    }
+
+    bestiole->activateAccessoires(); //activer les effets de chacun des accessoires ajoutés dans la bestiole
+
     // Assigner le comportement
     if (comportement_dict.find(comportement) != comportement_dict.end()) {
         bestiole->setComportement(comportement_dict[comportement]);
@@ -111,6 +133,38 @@ std::shared_ptr<Bestiole> BestioleFactory::createBestiole(std::string comporteme
     bestiole->setAgeMax(ageMax);    
 
     return bestiole;
+}
+
+bool BestioleFactory::find(std::unique_ptr<Accessoire>& accessoire, const std::vector<std::unique_ptr<Accessoire>>& accessoires){
+    for (const auto& acc : accessoires) {
+        if (typeid(*acc) == typeid(*accessoire)) {
+            return true; // Accessoire du même type trouvé
+        }
+    }
+    return false; // Aucun accessoire du même type trouvé
+}
+
+std::unique_ptr<Accessoire> BestioleFactory::choisirAccessoire(){
+    int randomIndex = randomInt(0,3); // 0: Camouflage, 1: Carapace, 2: Nageoire, 3: Aucun
+    if (randomIndex == 0) {
+        double camoufl = randomDouble(camouflageMin, camouflageMax);
+        auto camouflage = std::unique_ptr<Camouflage>(new Camouflage(camoufl));
+        return camouflage;
+    }
+    else if (randomIndex == 1) {
+        double slow = randomDouble(1, carapaceSlowMax);
+        double resist = randomDouble(1, carapaceResistCoefMax);
+        auto carapace = std::unique_ptr<Carapace>(new Carapace(resist,slow));
+        return carapace;
+    }
+    else if (randomIndex == 2) {
+        double speed = randomDouble(1, nageoiresSpeedCoefMax);
+        auto nageoires = std::unique_ptr<Nageoires>(new Nageoires(speed));
+        return nageoires;
+    }
+    else {
+        return nullptr; // Aucun accessoire
+    }
 }
 
 int BestioleFactory::randomInt(int min, int max) {

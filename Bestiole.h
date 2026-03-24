@@ -65,9 +65,12 @@ public:
       comportement = c;
    }
 
-   void setVitesse(double new_vitesse){
-      vitesse = new_vitesse;
-   }
+   std::vector<std::unique_ptr<Capteur>>& getCapteurs() { return capteurs; }
+
+   std::vector<std::unique_ptr<Accessoire>>& getAccessoires() { return accessoires; }
+
+   void setVitesse(double new_vitesse) { vitesse = new_vitesse; };
+   void multVitesse(double coef) { vitesse *= coef; };
 
    void setVitesseMomentanee(double boost, int nbSteps);
 
@@ -79,6 +82,7 @@ public:
       if (comportement) {
          comportement->updateDirection(*this, m);
       }
+      
    }
 
    void setOrientation(double new_orientation){
@@ -111,6 +115,8 @@ public:
    void setAge(double newage) {age = newage;};
 
    int getAge(){return age;};
+
+   void activateAccessoires();
 
    //clonage
    std::shared_ptr<Bestiole> clone() const { return std::make_shared<Bestiole>(*this); }

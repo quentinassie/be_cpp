@@ -18,16 +18,6 @@ struct BestioleFactory {
     int nombrePopulationInitiale;
     double tauxNaissanceGlobal;
     double probaClonage;
-    
-
-    // Plage de résistance
-    double resistCoefMax;
-
-    // Coeff de réduction de vitesse maximal pour la carapace
-    double slowCoefMax;
-
-    // Coeff d'augmentation de vitesse maximal pour les nageoires
-    double speedCoefMax;
 
     // Plage d'angle de vision
     double angleVisionMin, angleVisionMax;
@@ -47,6 +37,12 @@ struct BestioleFactory {
     // Plage de camouflage (0.0 = invisible, 1.0 = opaque)
     double camouflageMin, camouflageMax;
 
+    // Réduction de vitesse maximal pour la carapace et Resistance
+    double carapaceSlowMax, carapaceResistCoefMax;
+
+    // Augmentation de vitesse maximal pour les nageoires
+    double nageoiresSpeedCoefMax;
+
     double ageMax;
     double probaCollisionFatale;
 
@@ -56,8 +52,12 @@ struct BestioleFactory {
     void chargerConfiguration(const std::string& configFile);
     std::shared_ptr<Bestiole> createBestiole(std::string comportement);
     std::shared_ptr<Bestiole> createBestioleAleatoire();
-    bool find(std::unique_ptr<Accessoire>& accessoire, std::vector<std::unique_ptr<Accessoire>>& accessoires);
+
     bool find(std::unique_ptr<Capteur>& capteur, std::vector<std::unique_ptr<Capteur>>& capteurs);
+    std::unique_ptr<Capteur> choisirCapteur();
+
+    bool find(std::unique_ptr<Accessoire>& accessoire, const std::vector<std::unique_ptr<Accessoire>>& accessoires);
+    std::unique_ptr<Accessoire> choisirAccessoire();
 
     int randomInt(int min, int max);
     double randomDouble(double min, double max);

@@ -2,7 +2,7 @@
 #include "Bestiole.h"
 #include <iostream>
 
-Nageoires::Nageoires(float sCoef){
+Nageoires::Nageoires(double sCoef){
     speedCoef = sCoef;
 }
 Nageoires::Nageoires(const Nageoires& other){
@@ -19,6 +19,5 @@ std::unique_ptr<Accessoire> Nageoires::clone() const
 }
 
 void Nageoires::update(Bestiole* bestiole) const {
-    //vitesse = bestiole->getVitesse();
-    //bestiole->setVitesse(vitesse * speedCoef);
+    bestiole->multVitesse(speedCoef);
 }

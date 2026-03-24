@@ -131,13 +131,59 @@ void Bestiole::action(Milieu & monMilieu)
    bouge(monMilieu.getWidth(), monMilieu.getHeight());
 }
 
-void Bestiole::draw( UImg & support )
+void Bestiole::draw(UImg& support)
 {
-   double xt = x + cos( orientation ) * AFF_SIZE / 2.1;
-   double yt = y - sin( orientation ) * AFF_SIZE / 2.1;
+   if (aNageoires()) {
+      static bool init = false;
+      static CImg<unsigned char> baseRGB;
+      static CImg<unsigned char> baseMask;
 
-   support.draw_ellipse( x, y, AFF_SIZE, AFF_SIZE / 5., -orientation / M_PI * 180., comportement->getCouleur().data() );
-   support.draw_circle( xt, yt, AFF_SIZE / 2., comportement->getCouleur().data() );
+      if (!init) {
+         CImg<unsigned char> nageoiresRGBA("nageoires.png");
+
+         if (nageoiresRGBA.spectrum() >= 3) {
+            baseRGB = nageoiresRGBA.get_channels(0, 2).get_resize(20, 20);
+         } else {
+            baseRGB = nageoiresRGBA.get_resize(20, 20);
+         }
+
+         baseMask = CImg<unsigned char>(baseRGB.width(), baseRGB.height(), 1, 1, 0);
+         cimg_forXY(baseRGB, i, j) {
+            if (!(baseRGB(i,j,0,0) == 0 &&
+                  baseRGB(i,j,0,1) == 0 &&
+                  baseRGB(i,j,0,2) == 0)) {
+               baseMask(i,j) = 255;
+            }
+         }
+
+         init = true;
+      }
+
+      CImg<unsigned char> img(baseRGB);
+      CImg<unsigned char> mask(baseMask);
+
+      float angle = 90.0f - static_cast<float>(orientation * 180.0 / M_PI);
+      img.rotate(angle, 1, 0);
+      mask.rotate(angle, 1, 0);
+
+      int x0 = x - img.width() / 2;
+      int y0 = y - img.height() / 2;
+
+      support.draw_image(x0, y0, 0, 0, img, mask, 1.0f, 255);
+   }
+
+   double xt = x + cos(orientation) * AFF_SIZE / 2.1;
+   double yt = y - sin(orientation) * AFF_SIZE / 2.1;
+
+   support.draw_ellipse(
+      x, y, AFF_SIZE, AFF_SIZE / 5.,
+      -orientation / M_PI * 180.,
+      comportement->getCouleur().data()
+   );
+   support.draw_circle(
+      xt, yt, AFF_SIZE / 2.,
+      comportement->getCouleur().data()
+   );
 }
 
 
@@ -181,6 +227,14 @@ void Bestiole::setProbaCollisionFatale(double p)
    if (p < 0.0) p = 0.0;
    if (p > 1.0) p = 1.0;
    probaCollisionFatale = p;
+}
+
+void Bestiole::activateAccessoires() {
+   for (auto& accessoire : accessoires) {
+       if (accessoire) {
+           accessoire->update(this);
+       }
+   }
 }
 
 //type comportements, accessoires, capteurs

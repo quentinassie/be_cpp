@@ -15,16 +15,18 @@ class Bestiole;
 struct Nageoires : public Accessoire 
 {
     private:
-        float speedCoef;
+        double speedCoef;
 
     public:
 
-        Nageoires(float sCoef);
+        Nageoires(double sCoef);
         Nageoires(const Nageoires& other);
         ~Nageoires();
 
         std::unique_ptr<Accessoire> clone() const override;
         void update(Bestiole* bestiole) const override;
+
+        void setSpeedCoef(double newcoef){speedCoef = newcoef;};
     };
 
 #endif

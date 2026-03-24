@@ -22,7 +22,7 @@ void Peureuse::updateDirection(Bestiole& b, Milieu& m)
         double meanAngle = std::atan2(sumY, sumX);
 
         b.setOrientation(meanAngle + 3.141592653589793);
-        b.setVitesseMomentanee(2.2, 8);
+        b.setVitesseMomentanee(2.0, 8);
     }
 }
 
