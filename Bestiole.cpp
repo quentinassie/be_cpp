@@ -234,6 +234,45 @@ void Bestiole::draw(UImg& support)
       support.draw_circle(ex1, ey1, taille * AFF_SIZE * 0.18, eyeColor);
       support.draw_circle(ex2, ey2, taille * AFF_SIZE * 0.18, eyeColor);
    }
+
+   //oreilles
+   if (aOreilles()) {
+      const unsigned char earColor[3] = {0, 0, 0};
+   
+      double dx = std::cos(orientation);
+      double dy = -std::sin(orientation);
+   
+      double px = -std::sin(orientation);
+      double py = -std::cos(orientation);
+   
+      // base des antennes près de la tête
+      double bx = xt - dx * (taille * AFF_SIZE * 0.05);
+      double by = yt - dy * (taille * AFF_SIZE * 0.05);
+   
+      double side = taille * AFF_SIZE * 0.22;
+      double len = taille * AFF_SIZE * 2.0;
+   
+      // antenne gauche
+      double x1 = bx + px * side;
+      double y1 = by + py * side;
+      double x2 = x1 + px * (taille * AFF_SIZE * 0.12) + dx * len;
+      double y2 = y1 + py * (taille * AFF_SIZE * 0.12) + dy * len;
+   
+      // antenne droite
+      double x3 = bx - px * side;
+      double y3 = by - py * side;
+      double x4 = x3 - px * (taille * AFF_SIZE * 0.12) + dx * len;
+      double y4 = y3 - py * (taille * AFF_SIZE * 0.12) + dy * len;
+   
+      support.draw_line(x1, y1, x2, y2, earColor);
+      //support.draw_line(x1+1, y1, x2+1, y2, earColor);
+      support.draw_line(x1-1, y1, x2-1, y2, earColor);
+
+      support.draw_line(x3, y3, x4, y4, earColor);
+      support.draw_line(x3+1, y3, x4+1, y4, earColor);
+      //support.draw_line(x3-1, y3, x4-1, y4, earColor);
+
+   }
 }
 
 
@@ -287,6 +326,10 @@ void Bestiole::activateAccessoires() {
            accessoire->update(this);
        }
    }
+}
+
+const double Bestiole::getLimiteVue(){
+   return LIMITE_VUE;
 }
 
 //type comportements, accessoires, capteurs

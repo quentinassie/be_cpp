@@ -82,7 +82,7 @@ public:
    double getTaille(){return taille;};
    void setTaille(double ntaille){taille = ntaille;};
 
-   
+   static const double getLimiteVue();
 
    void update(Milieu& m){
       if (comportement) {

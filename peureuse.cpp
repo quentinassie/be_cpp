@@ -18,7 +18,7 @@ void Peureuse::updateDirection(Bestiole& b, Milieu& m)
         double dy = b.getY() - v->getY();
         double dist = std::sqrt(dx * dx + dy * dy);
 
-        if (dist <= 2000.0) {
+        if (dist <= b.getLimiteVue()) {
             sumX += dx;
             sumY += dy;
             nbProches++;
