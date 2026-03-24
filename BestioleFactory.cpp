@@ -108,6 +108,7 @@ std::shared_ptr<Bestiole> BestioleFactory::createBestiole(std::string comporteme
     }
 
     bestiole->setProbaCollisionFatale(probaCollisionFatale);
+    bestiole->setAgeMax(ageMax);    
 
     return bestiole;
 }

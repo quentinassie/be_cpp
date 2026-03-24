@@ -47,6 +47,9 @@ struct BestioleFactory {
     // Plage de camouflage (0.0 = invisible, 1.0 = opaque)
     double camouflageMin, camouflageMax;
 
+    double ageMax;
+    double probaCollisionFatale;
+
     BestioleFactory(const std::string& configFile);
     ~BestioleFactory();
 

@@ -40,7 +40,7 @@ private:
    int stepsBoostRestants = 0;
    bool vivante = true;
    static double probaCollisionFatale; //collision mortelle
-   static double ageMax; //âge maximum 
+   int ageMax; //âge maximum 
 
 
 private:
@@ -103,6 +103,14 @@ public:
    void tuer() { vivante = false; }
 
    static void setProbaCollisionFatale(double p);
+
+   void setAgeMax(double agemaximum) {ageMax = agemaximum;};
+
+   int getAgeMax(){return ageMax;};
+
+   void setAge(double newage) {age = newage;};
+
+   int getAge(){return age;};
 
    //clonage
    std::shared_ptr<Bestiole> clone() const { return std::make_shared<Bestiole>(*this); }

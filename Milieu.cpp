@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <ctime>
+#include <cmath>
 #include "BestioleFactory.h"
 
 
@@ -49,11 +50,31 @@ void Milieu::step(void)
    int nbYeux = 0;
    int nbOreilles = 0;
 
-   int nb_total = listeBestioles.size();
-
    for (auto& b : listeBestioles)
    {
+      b->setAge(b->getAge() +1);
+      if (b->getAge() >= b->getAgeMax())  // Vieillir et mourir si âge maximum atteint
+      {
+         b->tuer();
+         std::cout<<this<<" est morte de vieillesse"<<endl;
+      }
       b->action(*this);
+
+      //collisions
+      for (auto& autre : listeBestioles) {
+         if (autre != b && autre->estVivante() && b->collision(*autre)) {
+   
+            double r = static_cast<double>(std::rand()) / RAND_MAX;
+   
+            if (r < factory.probaCollisionFatale) {
+               b->aCamouflage();
+               autre->tuer();
+            }
+   
+            b->setOrientation(b->getOrientation() + M_PI);
+            break;
+         }
+      }
 
       //clonage automatique
       if (b->estVivante() && static_cast<double>(std::rand()) / RAND_MAX < factory.probaClonage)
@@ -77,8 +98,9 @@ void Milieu::step(void)
    for (auto& b : nouvellesBestioles)
    {
       addMember(b);
-      nouvellesBestioles.erase(nouvellesBestioles.begin(), nouvellesBestioles.end());
    }
+
+   nouvellesBestioles.erase(nouvellesBestioles.begin(), nouvellesBestioles.end());
 
    //supprime bestioles marquées non vivante
    listeBestioles.erase(
@@ -89,7 +111,8 @@ void Milieu::step(void)
       listeBestioles.end()
    );
 
-
+   int nb_total = listeBestioles.size();
+   
    //recense dans le fichier "simulation" puis dessine les bestioles
    for (auto& b : listeBestioles)
    {
@@ -125,7 +148,7 @@ void Milieu::step(void)
    fichier << num_step << ","
         << pctGregaire << "," << pctPeureuse << "," << pctKamikaze << ","
         << pctPrevoyante << "," << pctPersMulti << ","
-        << pctCamouflage << "," << pctCarapace << "," << pctNageoires
+        << pctCamouflage << "," << pctCarapace << "," << pctNageoires<< ","
         << pctYeux << "," << pctOreilles << "\n";
    
    num_step++;

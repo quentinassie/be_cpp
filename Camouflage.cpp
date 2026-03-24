@@ -20,7 +20,7 @@ float Camouflage::getCamouflage() const
 
 std::unique_ptr<Accessoire> Camouflage::clone() const
 {
-    return std::make_unique<Camouflage>(*this);
+    return std::unique_ptr<Accessoire>(new Camouflage(*this));
 }
 
 void Camouflage::update(Bestiole* bestiole) const

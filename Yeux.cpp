@@ -19,7 +19,7 @@ Yeux::~Yeux(){
 
 std::unique_ptr<Capteur> Yeux::clone() const
 {
-    return std::make_unique<Yeux>(*this);
+    return std::unique_ptr<Capteur>(new Yeux(*this));
 }
 
 bool Yeux::detect(const Bestiole & b, double dist, double a) const {

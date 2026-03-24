@@ -15,7 +15,7 @@ Nageoires::~Nageoires(){
 
 std::unique_ptr<Accessoire> Nageoires::clone() const
 {
-    return std::make_unique<Nageoires>(*this);
+    return std::unique_ptr<Accessoire>(new Nageoires(*this));
 }
 
 void Nageoires::update(Bestiole* bestiole) const {

@@ -25,7 +25,8 @@ double Bestiole::probaCollisionFatale = 1.0;
 Bestiole::Bestiole( void )
 {
    identite = ++next;
-   age = rand() % 1001 + 10;
+   //age = rand() % 1001 + 10;
+   age = 0;
 
    cout << "const Bestiole (" << identite << ") par defaut" << endl;
 
@@ -126,25 +127,8 @@ void Bestiole::bouge( int xLim, int yLim)
 void Bestiole::action(Milieu & monMilieu)
 {
    if (!estVivante()) return;
-   if (++age >= ageMax) tuer(); // Vieillir et mourir si âge maximum atteint
-
    update(monMilieu);
    bouge(monMilieu.getWidth(), monMilieu.getHeight());
-
-   for (auto& autre : monMilieu.getListBestioles()) {
-      if (autre.get() != this && autre->estVivante() && collision(*autre)) {
-
-         double r = static_cast<double>(rand()) / RAND_MAX;
-
-         if (r < probaCollisionFatale) {
-            tuer();
-            autre->tuer();
-         }
-
-         orientation += M_PI;
-         break;
-      }
-   }
 }
 
 void Bestiole::draw( UImg & support )
@@ -199,7 +183,7 @@ void Bestiole::setProbaCollisionFatale(double p)
    probaCollisionFatale = p;
 }
 
-//if comportements, accessoires, capteurs
+//type comportements, accessoires, capteurs
 bool Bestiole::estGregaire() {
    return dynamic_cast<Gregaire*>(comportement.get()) != nullptr;
 }

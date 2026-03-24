@@ -18,7 +18,7 @@ Oreilles::~Oreilles(){
 
 std::unique_ptr<Capteur> Oreilles::clone() const
 {
-    return std::make_unique<Oreilles>(*this);
+    return std::unique_ptr<Capteur>(new Oreilles(*this));
 }
 
 bool Oreilles::detect(const Bestiole & b, double dist, double angle) const {
