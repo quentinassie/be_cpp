@@ -186,20 +186,20 @@ void Bestiole::draw(UImg& support)
       comportement->getCouleur().data()
    );
 
-   if (aCarapace()){
-      static bool init = false;
+   if (aCarapace()) {
+      static bool init1 = false;
       static CImg<unsigned char> baseRGB1;
       static CImg<unsigned char> baseMask1;
-
-      if (!init) {
+   
+      if (!init1) {
          CImg<unsigned char> carapaceRGBA("carapace.png");
-
+   
          if (carapaceRGBA.spectrum() >= 3) {
             baseRGB1 = carapaceRGBA.get_channels(0, 2).get_resize(taille*12, taille*12);
          } else {
             baseRGB1 = carapaceRGBA.get_resize(taille*12, taille*12);
          }
-
+   
          baseMask1 = CImg<unsigned char>(baseRGB1.width(), baseRGB1.height(), 1, 1, 0);
          cimg_forXY(baseRGB1, i, j) {
             if (!(baseRGB1(i,j,0,0) == 0 &&
@@ -208,23 +208,25 @@ void Bestiole::draw(UImg& support)
                baseMask1(i,j) = 255;
             }
          }
-
-         init = true;
+   
+         init1 = true;
       }
-
+   
       CImg<unsigned char> img(baseRGB1);
       CImg<unsigned char> mask(baseMask1);
-
-      float angle = 80.0f -static_cast<float>(orientation * 180.0 / M_PI);
+   
+      // PNG vertical -> même formule que nageoires
+      float angle = 90.0f - static_cast<float>(orientation * 180.0 / M_PI);
       img.rotate(angle, 1, 0);
       mask.rotate(angle, 1, 0);
-
-      int x0 = x - img.width() / 2;
-      int y0 = y - img.height() / 2;
-
+   
+      // décalage vers la queue
+      double recul = taille * AFF_SIZE * 0.0;
+      int x0 = static_cast<int>(x - std::cos(orientation) * recul - img.width() / 2);
+      int y0 = static_cast<int>(y + std::sin(orientation) * recul - img.height() / 2);
+   
       support.draw_image(x0, y0, 0, 0, img, mask, 1.0f, 255);
    }
-
 
 }
 
