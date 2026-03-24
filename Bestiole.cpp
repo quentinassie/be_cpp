@@ -304,9 +304,10 @@ bool Bestiole::aOreilles(){
 }
 
 float Bestiole::getCamoCoef() const{
-   for (const auto& a : accesoires){
+   for (const auto& a : accessoires){
       if (typeid(a) == typeid(Camouflage)){
-         return a->camoCoef();
+         Camouflage* camo = dynamic_cast<Camouflage*>(a.get());
+         return camo->getCamouflage();
       }
    }
    return 0.0;// Si pas de camouflage, 
