@@ -82,6 +82,8 @@ public:
    double getTaille(){return taille;};
    void setTaille(double ntaille){taille = ntaille;};
 
+   
+
    void update(Milieu& m){
       if (comportement) {
          comportement->updateDirection(*this, m);

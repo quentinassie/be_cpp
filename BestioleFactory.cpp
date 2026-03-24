@@ -10,9 +10,14 @@
 #include "peureuse.h"
 #include "kamikaze.h"
 #include "prevoyante.h"
+#include "PersonnaliteMultiple.h"
+
 #include "Camouflage.h"
 #include "Carapace.h"
 #include "Nageoires.h"
+#include "Yeux.h"
+#include "Oreilles.h"
+
 
 BestioleFactory::BestioleFactory(const std::string& configFile) {
     std::cout << "BestioleFactory created" << std::endl;
@@ -22,7 +27,8 @@ BestioleFactory::BestioleFactory(const std::string& configFile) {
         {"gregaire", std::make_shared<Gregaire>()},
         {"peureuse", std::make_shared<Peureuse>()},
         {"kamikaze", std::make_shared<Kamikaze>()},
-        {"prevoyante", std::make_shared<Prevoyante>()}
+        {"prevoyante", std::make_shared<Prevoyante>()},
+        {"personnalitemultiple", std::make_shared<PersonnaliteMultiple>()}
 
     };
 }
@@ -52,6 +58,9 @@ void BestioleFactory::chargerConfiguration(const std::string& configFile) {
 
     distributionComportements["prevoyante"] =
         std::stof(ini.GetValue("population.comportements", "prevoyante", "0.1"));
+
+    distributionComportements["personnalitemultiple"] =
+        std::stof(ini.GetValue("population.comportements", "personnalitemultiple", "0.1"));
 
     // Charger le nombre de population initiale
     nombrePopulationInitiale =
@@ -123,6 +132,15 @@ std::shared_ptr<Bestiole> BestioleFactory::createBestiole(std::string comporteme
             }
     }
 
+    // choisir des capteurs aléatoires
+    int numCapteurs = randomInt(0, 2); // 0, 1 ou 2 capteurs
+    for (int i = 0; i < numCapteurs; ++i) {
+        std::unique_ptr<Capteur> capteur = choisirCapteur();
+        if (capteur && !find(capteur, bestiole->getCapteurs())) {
+            bestiole->getCapteurs().push_back(std::move(capteur));
+        }
+    }
+
     // Assigner le comportement
     if (comportement_dict.find(comportement) != comportement_dict.end()) {
         bestiole->setComportement(comportement_dict[comportement]);
@@ -157,6 +175,15 @@ bool BestioleFactory::find(std::unique_ptr<Accessoire>& accessoire, const std::v
     return false; // Aucun accessoire du même type trouvé
 }
 
+bool BestioleFactory::find(std::unique_ptr<Capteur>& capteur, std::vector<std::unique_ptr<Capteur>>& capteurs){
+    for (const auto& c : capteurs) {
+        if (typeid(*c) == typeid(*capteur)) {
+            return true; // Capteur du même type trouvé
+        }
+    }
+    return false; // Aucun capteur du même type trouvé
+}
+
 std::unique_ptr<Accessoire> BestioleFactory::choisirAccessoire(){
     int randomIndex = randomInt(0,3); // 0: Camouflage, 1: Carapace, 2: Nageoire, 3: Aucun
     if (randomIndex == 0) {
@@ -178,6 +205,27 @@ std::unique_ptr<Accessoire> BestioleFactory::choisirAccessoire(){
     }
     else {
         return nullptr; // Aucun accessoire
+    }
+}
+
+std::unique_ptr<Capteur> BestioleFactory::choisirCapteur(){
+    int randomIndex = randomInt(0,2); // 0: Yeux, 1: Oreilles, 2: Aucun
+
+    if (randomIndex == 0) {
+        double angle = randomDouble(angleVisionMin, angleVisionMax);
+        double vision = randomDouble(distVisionMin, distVisionMax);
+        double detection = randomDouble(detectVisionMin, detectVisionMax);
+        auto yeux = std::unique_ptr<Yeux>(new Yeux(angle, vision, detection));
+        return yeux;
+    }
+    else if (randomIndex == 1) {
+        double audition = randomDouble(distAuditionMin, distAuditionMax);
+        double detect = randomDouble(detectAuditionMin, detectAuditionMax);
+        auto oreilles = std::unique_ptr<Oreilles>(new Oreilles(audition, detect));
+        return oreilles;
+    }
+    else {
+        return nullptr; // Aucun capteur
     }
 }
 

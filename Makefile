@@ -1,5 +1,5 @@
-main : main.cpp Aquarium.o Bestiole.o Milieu.o BestioleFactory.o gregaire.o peureuse.o kamikaze.o prevoyante.o Camouflage.o Carapace.o Nageoires.o Oreilles.o Yeux.o
-	g++ -Wall -std=c++11 -o main main.cpp Aquarium.o Bestiole.o Milieu.o BestioleFactory.o gregaire.o peureuse.o kamikaze.o prevoyante.o Camouflage.o Carapace.o Nageoires.o Oreilles.o Yeux.o -I . -lX11 -lpthread
+main : main.cpp Aquarium.o Bestiole.o Milieu.o BestioleFactory.o gregaire.o peureuse.o kamikaze.o prevoyante.o PersonnaliteMultiple.o Camouflage.o Carapace.o Nageoires.o Oreilles.o Yeux.o
+	g++ -Wall -std=c++11 -o main main.cpp Aquarium.o Bestiole.o Milieu.o BestioleFactory.o gregaire.o peureuse.o kamikaze.o prevoyante.o PersonnaliteMultiple.o Camouflage.o Carapace.o Nageoires.o Oreilles.o Yeux.o -I . -lX11 -lpthread
 
 Aquarium.o : Aquarium.h Aquarium.cpp
 	g++ -Wall -std=c++11 -c Aquarium.cpp -I .
@@ -24,6 +24,9 @@ prevoyante.o : Comportement.h prevoyante.h prevoyante.cpp
 
 kamikaze.o : Comportement.h kamikaze.h kamikaze.cpp
 	g++ -Wall -std=c++11 -c kamikaze.cpp -I .
+
+PersonnaliteMultiple.o : Comportement.h PersonnaliteMultiple.h PersonnaliteMultiple.cpp
+	g++ -Wall -std=c++11 -c PersonnaliteMultiple.cpp -I .
 
 Camouflage.o : Accessoire.h Camouflage.h Camouflage.cpp
 	g++ -Wall -std=c++11 -c Camouflage.cpp -I .

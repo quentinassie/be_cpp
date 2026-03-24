@@ -132,88 +132,108 @@ void Bestiole::action(Milieu & monMilieu)
 
 void Bestiole::draw(UImg& support)
 {
-   if (aNageoires()) {
-      static CImg<unsigned char> nageoiresSrc("nageoires.jpg");
-
-      const int w = std::max(1, static_cast<int>(taille * 20));
-      const int h = std::max(1, static_cast<int>(taille * 20));
-
-      CImg<unsigned char> img;
-      if (nageoiresSrc.spectrum() >= 3) {
-         img = nageoiresSrc.get_channels(0, 2).get_resize(w, h);
-      } else {
-         img = nageoiresSrc.get_resize(w, h);
-      }
-
-      CImg<unsigned char> mask(img.width(), img.height(), 1, 1, 0);
-      cimg_forXY(img, i, j) {
-         const int r = img(i,j,0,0);
-         const int g = img(i,j,0,1);
-         const int b = img(i,j,0,2);
-
-         if (!(r > 240 && g > 240 && b > 240)) {
-            mask(i,j) = 255;
-         }
-      }
-
-      float angle = 90.0f - static_cast<float>(orientation * 180.0 / M_PI);
-      img.rotate(angle, 1, 0);
-      mask.rotate(angle, 1, 0);
-
-      int x0 = x - img.width() / 2;
-      int y0 = y - img.height() / 2;
-
-      support.draw_image(x0, y0, 0, 0, img, mask, 1.0f, 255);
-   }
+   const unsigned char decoColor[3] = {208, 164, 250};
 
    double xt = x + cos(orientation) * taille * AFF_SIZE / 2.1;
    double yt = y - sin(orientation) * taille * AFF_SIZE / 2.1;
 
-   support.draw_ellipse(
-      x, y, taille * AFF_SIZE, taille * AFF_SIZE / 5.,
-      -orientation / M_PI * 180.,
-      comportement->getCouleur().data()
-   );
-
-   if (aCarapace()) {
-      static CImg<unsigned char> carapaceSrc("carapace.jpg");
-
-      const int w = std::max(1, static_cast<int>(taille * 12));
-      const int h = std::max(1, static_cast<int>(taille * 12));
-
-      CImg<unsigned char> img;
-      if (carapaceSrc.spectrum() >= 3) {
-         img = carapaceSrc.get_channels(0, 2).get_resize(w, h);
-      } else {
-         img = carapaceSrc.get_resize(w, h);
-      }
-
-      CImg<unsigned char> mask(img.width(), img.height(), 1, 1, 0);
-      cimg_forXY(img, i, j) {
-         const int r = img(i,j,0,0);
-         const int g = img(i,j,0,1);
-         const int b = img(i,j,0,2);
-
-         if (!(r > 240 && g > 240 && b > 240)) {
-            mask(i,j) = 255;
-         }
-      }
-
-      float angle = 90.0f - static_cast<float>(orientation * 180.0 / M_PI);
-      img.rotate(angle, 1, 0);
-      mask.rotate(angle, 1, 0);
-
-      double recul = taille * AFF_SIZE * 0.35;
-      int x0 = static_cast<int>(x - std::cos(orientation) * recul - img.width() / 2);
-      int y0 = static_cast<int>(y + std::sin(orientation) * recul - img.height() / 2);
-
-      support.draw_image(x0, y0, 0, 0, img, mask, 1.0f, 255);
+   if (aNageoires()) {
+      const unsigned char decoColor[3] = {208, 164, 250};
+   
+      double dx = std::cos(orientation);
+      double dy = -std::sin(orientation);
+   
+      // vecteur perpendiculaire
+      double px = -std::sin(orientation);
+      double py = -std::cos(orientation);
+   
+      // point d'ancrage centré sur l'axe du corps,
+      // un peu derrière la tête
+      double bx = x + dx * (taille * AFF_SIZE * -0.1);
+      double by = y + dy * (taille * AFF_SIZE * -0.1);
+   
+      double side = taille * AFF_SIZE * 0.65;
+   
+      double x1 = bx + px * side;
+      double y1 = by + py * side;
+   
+      double x2 = bx - px * side;
+      double y2 = by - py * side;
+   
+      double bodyAngle = -orientation * 180.0 / M_PI;
+      double finAngle = 35.0;
+   
+      support.draw_ellipse(
+         x1, y1,
+         taille * AFF_SIZE * 1.1, taille * AFF_SIZE * 0.18,
+         bodyAngle + finAngle,
+         decoColor
+      );
+   
+      support.draw_ellipse(
+         x2, y2,
+         taille * AFF_SIZE * 1.1, taille * AFF_SIZE * 0.18,
+         bodyAngle - finAngle,
+         decoColor
+      );
    }
 
-   support.draw_circle(
-      xt, yt, taille * AFF_SIZE / 2.,
+   // corps
+   support.draw_ellipse(
+      x, y,
+      taille * AFF_SIZE, taille * AFF_SIZE / 5.0,
+      -orientation / M_PI * 180.0,
       comportement->getCouleur().data()
    );
+
+   // CARAPACE : disque placé vers la queue
+   if (aCarapace()) {
+      double recul = taille * AFF_SIZE * 0.55;
+
+      double xc = x - cos(orientation) * recul;
+      double yc = y + sin(orientation) * recul;
+
+      support.draw_circle(
+         xc, yc,
+         taille * AFF_SIZE * 0.65,
+         decoColor
+      );
+   }
+
+   // tête
+   support.draw_circle(
+      xt, yt,
+      taille * AFF_SIZE / 2.0,
+      comportement->getCouleur().data()
+   );
+
+   //yeux
+   if (aYeux()) {
+      const unsigned char eyeColor[3] = {0, 0, 0};
+   
+      double dx = std::cos(orientation);
+      double dy = -std::sin(orientation);
+   
+      double px = -std::sin(orientation);
+      double py = -std::cos(orientation);
+   
+      // centre de la tête
+      double hx = xt;
+      double hy = yt;
+   
+      // deux yeux un peu écartés sur la tête
+      double side = taille * AFF_SIZE * 0.18;
+      double forward = taille * AFF_SIZE * 0.05;
+   
+      double ex1 = hx + px * side + dx * forward;
+      double ey1 = hy + py * side + dy * forward;
+   
+      double ex2 = hx - px * side + dx * forward;
+      double ey2 = hy - py * side + dy * forward;
+   
+      support.draw_circle(ex1, ey1, taille * AFF_SIZE * 0.18, eyeColor);
+      support.draw_circle(ex2, ey2, taille * AFF_SIZE * 0.18, eyeColor);
+   }
 }
 
 
@@ -223,21 +243,23 @@ bool operator==( const Bestiole & b1, const Bestiole & b2 )
 }
 
 
-bool Bestiole::jeTeVois( const Bestiole & b ) const
+bool Bestiole::jeTeVois(const Bestiole& b) const
 {
-   double dist;
-   double angle;
-   
-   dist = std::sqrt( (x - b.x) * (x - b.x) + (y - b.y) * (y - b.y) );
-   angle = std::acos( ((x - b.x)*cos(orientation) - (y - b.y)*sin(orientation)) / dist);
+   double dist = std::sqrt((x - b.x) * (x - b.x) + (y - b.y) * (y - b.y));
+   if (dist == 0) return true;
 
-   //for (auto& capteur : capteurs){
-   //   if (capteur->detect(b, dist, angle)){
-   //      return true;
-   //   }
-   //}
+   double val = ((x - b.x) * cos(orientation) - (y - b.y) * sin(orientation)) / dist;
+   if (val > 1.0) val = 1.0;
+   if (val < -1.0) val = -1.0;
 
-   return ( dist <= LIMITE_VUE );  //à modifier pour retourner "false" quand mis boucle capteurs
+   double angle = std::acos(val);
+
+   for (const auto& capteur : capteurs) {
+      if (capteur->detect(b, dist, angle)) {
+         return true;
+      }
+   }
+   return false;
 }
 
 bool Bestiole::collision( const Bestiole & b ) const{
