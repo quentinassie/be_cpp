@@ -22,5 +22,5 @@ std::unique_ptr<Capteur> Oreilles::clone() const
 }
 
 bool Oreilles::detect(const Bestiole & b, double dist, double angle) const {
-    return (dist <= range && detectCoef > b.getCamoCoef())
+    return (dist <= range && detectCoef > b.getCamoCoef());
 }
