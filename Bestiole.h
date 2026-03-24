@@ -139,6 +139,9 @@ public:
    bool aNageoires();
    bool aYeux();
    bool aOreilles();
+   // getters
+   float getCamoCoef() const;
+
 
 };
 
