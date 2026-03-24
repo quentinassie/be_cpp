@@ -23,6 +23,5 @@ std::unique_ptr<Capteur> Yeux::clone() const
 }
 
 bool Yeux::detect(const Bestiole & b, double dist, double a) const {
-    //return (dist <= range && abs(a) <= angle && detectCoef > b.getCamoCoef())
-    return false;
+    return (dist <= range && abs(a) <= angle && detectCoef > b.getCamoCoef())
 }
