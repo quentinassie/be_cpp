@@ -165,7 +165,7 @@ std::unique_ptr<Accessoire> BestioleFactory::choisirAccessoire(){
         return camouflage;
     }
     else if (randomIndex == 1) {
-        double slow = randomDouble(1, carapaceSlowMax);
+        double slow = randomDouble(carapaceSlowMax,1);
         double resist = randomDouble(1, carapaceResistCoefMax);
         auto carapace = std::unique_ptr<Carapace>(new Carapace(resist,slow));
         carapace->setProbaCollisionFatale(probaCollisionFatale);

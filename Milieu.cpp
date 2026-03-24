@@ -69,7 +69,6 @@ void Milieu::step(void)
             if (r < b->getProbaCollisionFatale()) {
                b->aCamouflage();
                autre->tuer();
-               b->tuer();
             }
    
             b->setOrientation(b->getOrientation() + M_PI);
