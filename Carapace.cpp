@@ -1,6 +1,9 @@
 #include "Carapace.h"
 #include <iostream>
 #include "Bestiole.h"
+#include "Milieu.h"
+
+
 
 Carapace::Carapace(float rCoef, float sCoef){
     resistCoef = rCoef;
@@ -21,9 +24,7 @@ std::unique_ptr<Accessoire> Carapace::clone() const
 }
 
 void Carapace::update(Bestiole* bestiole) const {
-    //probabilite = bestiole->getProbaMortCollision();
-    //bestiole->setProbaMortCollision(probabilite / resistCoef);
-    
-    //vitesse = bestiole->getVitesse();
-    //bestiole->setVitesse(vitesse / slowCoef);
+    double proba = bestiole->getProbaCollisionFatale();
+    bestiole->setProbaCollisionFatale(proba / resistCoef);
+    bestiole->multVitesse(slowCoef);
 }

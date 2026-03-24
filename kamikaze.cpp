@@ -14,7 +14,6 @@ void Kamikaze::updateDirection(Bestiole& b, Milieu& m)
     double Y = b.getY() - target->getY();   // y inversé
     double Angle = std::atan2(Y, X);
     b.setOrientation(Angle);
-    b.setVitesse(3);
     
 }
 

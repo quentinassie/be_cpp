@@ -64,7 +64,8 @@ void BestioleFactory::chargerConfiguration(const std::string& configFile) {
         std::stoi(ini.GetValue("general", "age_max", "80"));
     probaClonage =
         std::stof(ini.GetValue("general", "clonage", "0.1"));
-
+    tailleMax = 
+        std::stof(ini.GetValue("general", "taille_max", "2.0"));
     // Charger les plages de caractéristiques
     angleVisionMin =
         std::stof(ini.GetValue("angle_vision", "min", "20.0"));
@@ -122,15 +123,27 @@ std::shared_ptr<Bestiole> BestioleFactory::createBestiole(std::string comporteme
             }
     }
 
-    bestiole->activateAccessoires(); //activer les effets de chacun des accessoires ajoutés dans la bestiole
-
     // Assigner le comportement
     if (comportement_dict.find(comportement) != comportement_dict.end()) {
         bestiole->setComportement(comportement_dict[comportement]);
     }
 
+    // ralentir la kamikaze
+    if (comportement == "kamikaze") {
+        bestiole->setVitesse(3);
+    }   
+
+
     bestiole->setProbaCollisionFatale(probaCollisionFatale);
-    bestiole->setAgeMax(ageMax);    
+    bestiole->setAgeMax(ageMax);   
+
+    //taille aléatoire
+    double rdtaille = randomDouble(1.0, tailleMax);
+    bestiole->setTaille(rdtaille);
+
+    bestiole->activateAccessoires(); //activer les effets de chacun des accessoires ajoutés dans la bestiole
+
+     
 
     return bestiole;
 }
@@ -155,6 +168,7 @@ std::unique_ptr<Accessoire> BestioleFactory::choisirAccessoire(){
         double slow = randomDouble(1, carapaceSlowMax);
         double resist = randomDouble(1, carapaceResistCoefMax);
         auto carapace = std::unique_ptr<Carapace>(new Carapace(resist,slow));
+        carapace->setProbaCollisionFatale(probaCollisionFatale);
         return carapace;
     }
     else if (randomIndex == 2) {

@@ -66,9 +66,10 @@ void Milieu::step(void)
    
             double r = static_cast<double>(std::rand()) / RAND_MAX;
    
-            if (r < factory.probaCollisionFatale) {
+            if (r < b->getProbaCollisionFatale()) {
                b->aCamouflage();
                autre->tuer();
+               b->tuer();
             }
    
             b->setOrientation(b->getOrientation() + M_PI);

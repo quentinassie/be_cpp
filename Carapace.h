@@ -17,6 +17,7 @@ struct Carapace : public Accessoire
     private :
         float resistCoef;
         float slowCoef;
+        double probaCollFatale;
 
     public:
         Carapace(float rCoef, float sCoef);
@@ -24,6 +25,7 @@ struct Carapace : public Accessoire
         ~Carapace();
 
     std::unique_ptr<Accessoire> clone() const override;
+    void setProbaCollisionFatale(double proba){probaCollFatale = proba;};
     void update(Bestiole* bestiole) const override;
 };
 

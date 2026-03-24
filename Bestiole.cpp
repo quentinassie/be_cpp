@@ -20,7 +20,6 @@ const double Bestiole::MAX_VITESSE = 10.;
 const double Bestiole::LIMITE_VUE = 30.;
 
 int Bestiole::next = 0;
-double Bestiole::probaCollisionFatale = 1.0;
 
 Bestiole::Bestiole( void )
 {
@@ -142,9 +141,9 @@ void Bestiole::draw(UImg& support)
          CImg<unsigned char> nageoiresRGBA("nageoires.png");
 
          if (nageoiresRGBA.spectrum() >= 3) {
-            baseRGB = nageoiresRGBA.get_channels(0, 2).get_resize(20, 20);
+            baseRGB = nageoiresRGBA.get_channels(0, 2).get_resize(taille*20, taille*20);
          } else {
-            baseRGB = nageoiresRGBA.get_resize(20, 20);
+            baseRGB = nageoiresRGBA.get_resize(taille*20, taille*20);
          }
 
          baseMask = CImg<unsigned char>(baseRGB.width(), baseRGB.height(), 1, 1, 0);
@@ -172,18 +171,61 @@ void Bestiole::draw(UImg& support)
       support.draw_image(x0, y0, 0, 0, img, mask, 1.0f, 255);
    }
 
-   double xt = x + cos(orientation) * AFF_SIZE / 2.1;
-   double yt = y - sin(orientation) * AFF_SIZE / 2.1;
+   
+
+   double xt = x + cos(orientation) * taille*AFF_SIZE / 2.1;
+   double yt = y - sin(orientation) * taille*AFF_SIZE / 2.1;
 
    support.draw_ellipse(
-      x, y, AFF_SIZE, AFF_SIZE / 5.,
+      x, y, taille*AFF_SIZE, taille*AFF_SIZE / 5.,
       -orientation / M_PI * 180.,
       comportement->getCouleur().data()
    );
    support.draw_circle(
-      xt, yt, AFF_SIZE / 2.,
+      xt, yt, taille*AFF_SIZE / 2.,
       comportement->getCouleur().data()
    );
+
+   if (aCarapace()){
+      static bool init = false;
+      static CImg<unsigned char> baseRGB1;
+      static CImg<unsigned char> baseMask1;
+
+      if (!init) {
+         CImg<unsigned char> carapaceRGBA("carapace.png");
+
+         if (carapaceRGBA.spectrum() >= 3) {
+            baseRGB1 = carapaceRGBA.get_channels(0, 2).get_resize(taille*12, taille*12);
+         } else {
+            baseRGB1 = carapaceRGBA.get_resize(taille*12, taille*12);
+         }
+
+         baseMask1 = CImg<unsigned char>(baseRGB1.width(), baseRGB1.height(), 1, 1, 0);
+         cimg_forXY(baseRGB1, i, j) {
+            if (!(baseRGB1(i,j,0,0) == 0 &&
+                  baseRGB1(i,j,0,1) == 0 &&
+                  baseRGB1(i,j,0,2) == 0)) {
+               baseMask1(i,j) = 255;
+            }
+         }
+
+         init = true;
+      }
+
+      CImg<unsigned char> img(baseRGB1);
+      CImg<unsigned char> mask(baseMask1);
+
+      float angle = 80.0f -static_cast<float>(orientation * 180.0 / M_PI);
+      img.rotate(angle, 1, 0);
+      mask.rotate(angle, 1, 0);
+
+      int x0 = x - img.width() / 2;
+      int y0 = y - img.height() / 2;
+
+      support.draw_image(x0, y0, 0, 0, img, mask, 1.0f, 255);
+   }
+
+
 }
 
 

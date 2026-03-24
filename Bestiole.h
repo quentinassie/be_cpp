@@ -23,6 +23,7 @@ private:
 
    static int next;
    int age;
+   double taille;
    
    bool personnaliteMultiple=false;
    shared_ptr<Comportement> comportement;
@@ -39,7 +40,7 @@ private:
    double vitesseBoost = 0;
    int stepsBoostRestants = 0;
    bool vivante = true;
-   static double probaCollisionFatale; //collision mortelle
+   double probaCollisionFatale; //collision mortelle
    int ageMax; //âge maximum 
 
 
@@ -78,6 +79,9 @@ public:
       return vitesse;
    }
 
+   double getTaille(){return taille;};
+   void setTaille(double ntaille){taille = ntaille;};
+
    void update(Milieu& m){
       if (comportement) {
          comportement->updateDirection(*this, m);
@@ -106,7 +110,9 @@ public:
    
    void tuer() { vivante = false; }
 
-   static void setProbaCollisionFatale(double p);
+   void setProbaCollisionFatale(double p);
+   double getProbaCollisionFatale(){return probaCollisionFatale;};
+
 
    void setAgeMax(double agemaximum) {ageMax = agemaximum;};
 

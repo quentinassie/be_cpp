@@ -45,6 +45,7 @@ struct BestioleFactory {
 
     double ageMax;
     double probaCollisionFatale;
+    double tailleMax;
 
     BestioleFactory(const std::string& configFile);
     ~BestioleFactory();
