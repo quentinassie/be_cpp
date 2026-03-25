@@ -43,7 +43,9 @@ struct BestioleFactory {
     // Augmentation de vitesse maximal pour les nageoires
     double nageoiresSpeedCoefMax;
 
-    double ageMax;
+    int ageMax;
+    int ageMin;
+    
     double probaCollisionFatale;
     double tailleMax;
 

@@ -70,7 +70,9 @@ void BestioleFactory::chargerConfiguration(const std::string& configFile) {
     tauxNaissanceGlobal =
         std::stof(ini.GetValue("general", "naissance", "0.1"));
     ageMax =
-        std::stoi(ini.GetValue("general", "age_max", "80"));
+        std::stoi(ini.GetValue("general", "age_max", "800"));
+    ageMin =
+        std::stoi(ini.GetValue("general", "age_min", "400"));
     probaClonage =
         std::stof(ini.GetValue("general", "clonage", "0.1"));
     tailleMax = 
@@ -151,10 +153,11 @@ std::shared_ptr<Bestiole> BestioleFactory::createBestiole(std::string comporteme
         bestiole->setVitesse(3);
     }   
 
-
     bestiole->setProbaCollisionFatale(probaCollisionFatale);
 
-    bestiole->setAgeMax(ageMax);   
+    //ageMax aléatoire
+    int age = randomInt(ageMin, ageMax);
+    bestiole->setAgeMax(age);   
 
     //taille aléatoire
     double rdtaille = randomDouble(1.0, tailleMax);
