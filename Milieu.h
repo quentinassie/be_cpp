@@ -50,6 +50,12 @@ public :
    std::shared_ptr<Bestiole> getNearestNeighbour(const Bestiole& b);
 
    void naissanceExterieure();
+
+   //debug capteurs
+   bool debugPerception = false;
+
+   void toggleDebugPerception() { debugPerception = !debugPerception; }
+   bool isDebugPerception() const { return debugPerception; }
 };
 
 

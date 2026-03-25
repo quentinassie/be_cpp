@@ -45,6 +45,10 @@ void Aquarium::run( void )
          cout << "Vous avez presse la touche " << static_cast<unsigned char>( key() );
          cout << " (" << key() << ")" << endl;
          if ( is_keyESC() ) close();
+
+         if (key() == 'p' || key() == 'P') {
+            flotte->toggleDebugPerception();
+         }
       }
 
       flotte->step();

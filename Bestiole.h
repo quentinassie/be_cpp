@@ -148,6 +148,9 @@ public:
    // getters
    float getCamoCoef() const;
 
+   //dessin des capteurs pour debug
+   void drawPerception(UImg& support) const;
+
 
 };
 

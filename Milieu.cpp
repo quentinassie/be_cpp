@@ -130,6 +130,9 @@ void Milieu::step(void)
       if (b->aYeux())           nbYeux++;
       if (b->aOreilles())       nbOreilles++;
 
+      if (debugPerception) {
+         b->drawPerception(*this);
+      }
       b->draw(*this);
    }
 
@@ -196,7 +199,7 @@ std::shared_ptr<Bestiole> Milieu::getNearestNeighbour(const Bestiole& b)
    std::shared_ptr<Bestiole> target = nullptr;
 
    for (auto& other : listeBestioles) {
-      if (!(*other == b) && other->estVivante() && b.jeTeVois(*other)) {
+      if (!(*other == b) && b.estVivante() && b.jeTeVois(*other)) {
          double distance = std::sqrt(
             (other->getX() - b.getX()) * (other->getX() - b.getX()) +
             (other->getY() - b.getY()) * (other->getY() - b.getY())

@@ -23,6 +23,8 @@ struct Oreilles : public Capteur
         Oreilles(const Oreilles& o);
         ~Oreilles();
 
+        float getRange() const { return range; }
+
         std::unique_ptr<Capteur> clone() const override;
         bool detect(const Bestiole & b, double dist, double angle) const override;
 };

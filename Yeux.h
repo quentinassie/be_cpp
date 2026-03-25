@@ -22,6 +22,9 @@ struct Yeux : public Capteur
         Yeux(const Yeux& y);
         ~Yeux();  
 
+        float getAngle() const { return angle; }
+        float getRange() const { return range; }
+
         std::unique_ptr<Capteur> clone() const override;
         bool detect(const Bestiole & b, double dist, double a) const override;
 };

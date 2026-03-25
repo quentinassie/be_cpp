@@ -3,7 +3,8 @@
 #include "Bestiole.h"
 
 Yeux::Yeux(float a, float r, float dCoef){
-    angle = a;
+    angle = a * M_PI / 180.0;
+    //angle = a;
     range = r;
     detectCoef = dCoef;
 }
@@ -23,6 +24,6 @@ std::unique_ptr<Capteur> Yeux::clone() const
 }
 
 bool Yeux::detect(const Bestiole & b, double dist, double a) const {
-    return (dist <= range && abs(a) <= angle && detectCoef > b.getCamoCoef());
+    return (dist <= range && std::abs(a) <= angle / 2.0 && detectCoef > b.getCamoCoef());
 
 }

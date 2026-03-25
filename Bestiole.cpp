@@ -302,6 +302,60 @@ if (aCarapace()) {
 }
 
 
+void Bestiole::drawPerception(UImg& support) const
+{
+   const unsigned char visionColor[3] = {120, 170, 255};
+   const unsigned char earColor[3]    = {255, 190, 120};
+
+   double hx = x + std::cos(orientation) * taille * AFF_SIZE / 2.1;
+   double hy = y - std::sin(orientation) * taille * AFF_SIZE / 2.1;
+
+   for (const auto& capteur : capteurs) {
+
+      if (const Yeux* yeux = dynamic_cast<const Yeux*>(capteur.get())) {
+         double ang = yeux->getAngle();   // en radians
+         double r   = yeux->getRange();
+      
+         const unsigned char visionColor[3] = {120, 170, 255};
+      
+         int n = 20; // plus grand = arc plus lisse
+         double aStart = orientation - ang/2.0;
+         double aEnd   = orientation + ang/2.0;
+      
+         double prevX = hx + std::cos(aStart) * r;
+         double prevY = hy - std::sin(aStart) * r;
+      
+         for (int i = 1; i <= n; ++i) {
+            double t = static_cast<double>(i) / n;
+            double a = aStart + t * (aEnd - aStart);
+      
+            double curX = hx + std::cos(a) * r;
+            double curY = hy - std::sin(a) * r;
+      
+            support.draw_line(prevX, prevY, curX, curY, visionColor, 0.4f);
+            support.draw_line(hx, hy, curX, curY, visionColor, 0.05f);
+      
+            prevX = curX;
+            prevY = curY;
+         }
+      
+         // bords du secteur
+         double x1 = hx + std::cos(aStart) * r;
+         double y1 = hy - std::sin(aStart) * r;
+         double x2 = hx + std::cos(aEnd) * r;
+         double y2 = hy - std::sin(aEnd) * r;
+      
+         support.draw_line(hx, hy, x1, y1, visionColor, 0.4f);
+         support.draw_line(hx, hy, x2, y2, visionColor, 0.4f);
+      }
+
+      else if (const Oreilles* oreilles = dynamic_cast<const Oreilles*>(capteur.get())) {
+         support.draw_circle(x, y, oreilles->getRange(), earColor, 0.05f);
+      }
+   }
+}
+
+
 bool operator==( const Bestiole & b1, const Bestiole & b2 )
 {
    return ( b1.identite == b2.identite );
@@ -310,10 +364,16 @@ bool operator==( const Bestiole & b1, const Bestiole & b2 )
 
 bool Bestiole::jeTeVois(const Bestiole& b) const
 {
-   double dist = std::sqrt((x - b.x) * (x - b.x) + (y - b.y) * (y - b.y));
+   double vx = b.x - x;
+   double vy = b.y - y;
+
+   double dist = std::sqrt(vx * vx + vy * vy);
    if (dist == 0) return true;
 
-   double val = ((x - b.x) * cos(orientation) - (y - b.y) * sin(orientation)) / dist;
+   double dx = std::cos(orientation);
+   double dy = -std::sin(orientation);
+
+   double val = (vx * dx + vy * dy) / dist;
    if (val > 1.0) val = 1.0;
    if (val < -1.0) val = -1.0;
 
