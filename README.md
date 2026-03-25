@@ -274,7 +274,7 @@ Des tests unitaires ont été développés pour valider le bon fonctionnement de
 ---
 
 ## Structure du projet
-
+```
 ├── main.cpp                     # Point d’entrée
 ├── Makefile                     # Compilation
 ├── config.ini                   # Configuration de la simulation
@@ -302,4 +302,4 @@ Des tests unitaires ont été développés pour valider le bon fonctionnement de
 │   ├── Makefile                 # Compilation des tests
 │   ├── test_camouflage.cpp      # Tests unitaires pour Camouflage
 └── simulation.csv               # Fichier de statistiques 
-
+```
