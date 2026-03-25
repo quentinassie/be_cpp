@@ -58,13 +58,19 @@ void Aquarium::run(void)
             set_key();
          }
 
+         // naissance aléatoire key N
+         if ((k == 'n' || k == 'N') && !mHandled) {
+            flotte->naissanceExterieure();
+            mHandled = true;
+            set_key();
+         }
+
          //changement comportement aleatoire key C
          if ((k == 'c' || k == 'C') && !mHandled) {
             flotte->changerComportementAleatoire();
             mHandled = true;
             set_key();
          }
-
       }
       else {
          mHandled = false; // la touche est relâchée
