@@ -46,7 +46,7 @@ La simulation initiale permettait à des **bestioles** de se déplacer dans un a
 
 **Bestiole** : entité centrale (position, orientation, vitesse, âge, comportement, capteurs, accessoires).
 
-**Comportement** : classe abstraite implémentée par les quatre comportements concrets.
+**Comportement** : classe abstraite implémentée par les cinq comportements concrets.
 
 **Capteur** : interface pour les capteurs (Yeux et Oreilles).
 
