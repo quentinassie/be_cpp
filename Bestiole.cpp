@@ -222,7 +222,7 @@ void Bestiole::draw(UImg& support)
       double hy = yt;
    
       // deux yeux un peu écartés sur la tête
-      double side = taille * AFF_SIZE * 0.18;
+      double side = taille * AFF_SIZE * 0.28;
       double forward = taille * AFF_SIZE * 0.05;
    
       double ex1 = hx + px * side + dx * forward;
@@ -231,8 +231,8 @@ void Bestiole::draw(UImg& support)
       double ex2 = hx - px * side + dx * forward;
       double ey2 = hy - py * side + dy * forward;
    
-      support.draw_circle(ex1, ey1, taille * AFF_SIZE * 0.18, eyeColor);
-      support.draw_circle(ex2, ey2, taille * AFF_SIZE * 0.18, eyeColor);
+      support.draw_circle(ex1, ey1, taille * AFF_SIZE * 0.22, eyeColor);
+      support.draw_circle(ex2, ey2, taille * AFF_SIZE * 0.22, eyeColor);
    }
 
    //oreilles
@@ -398,12 +398,15 @@ bool Bestiole::aOreilles(){
    return false;
 }
 
+
 float Bestiole::getCamoCoef() const{
    for (const auto& a : accessoires){
-      if (typeid(a) == typeid(Camouflage)){
-         Camouflage* camo = dynamic_cast<Camouflage*>(a.get());
-         return camo->getCamouflage();
-      }
+       Camouflage* camo = dynamic_cast<Camouflage*>(a.get());
+       if (camo) {
+           return camo->getCamouflage();
+       } else {
+           std::cout << "  dynamic_cast failed" << std::endl;
+       }
    }
-   return 0.0;// Si pas de camouflage, 
+   return 0.0;
 }

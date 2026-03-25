@@ -107,6 +107,10 @@ public:
       return y;
    }
 
+   void setX(int newX) { x = newX; }//pour les tests
+   
+   void setY(int newY) { y = newY; }
+
    //collisions :
    bool estVivante() const { return vivante; }
    
