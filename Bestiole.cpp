@@ -74,7 +74,7 @@ Bestiole::Bestiole( const Bestiole & b )
 
 Bestiole::~Bestiole( void )
 {
-   cout << "dest Bestiole" << endl;
+   std::cout<<this<<" s'est faite foudroyer"<<endl;
 }
 
 void Bestiole::initCoords( int xLim, int yLim )

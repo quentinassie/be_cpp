@@ -31,31 +31,38 @@ Aquarium::~Aquarium( void )
 }
 
 
-void Aquarium::run( void )
+void Aquarium::run(void)
 {
+   bool mHandled = false;
 
-   cout << "running Aquarium" << endl;
-
-   while ( ! is_closed() )
+   while (!is_closed())
    {
+      if (is_key()) {
+         int k = key();
 
-      // cout << "iteration de la simulation" << endl;
+         if (is_keyESC()) close();
 
-      if ( is_key() ) {
-         cout << "Vous avez presse la touche " << static_cast<unsigned char>( key() );
-         cout << " (" << key() << ")" << endl;
-         if ( is_keyESC() ) close();
-
-         if (key() == 'p' || key() == 'P') {
+         if ((k == 'p' || k == 'P')) {
             flotte->toggleDebugPerception();
+            set_key();
          }
+
+         if ((k == 'm' || k == 'M') && !mHandled) {
+            auto liste = flotte->getListBestioles();
+            if (!liste.empty()) {
+               int i = rand() % liste.size();
+               liste[i]->tuer();
+            }
+            mHandled = true;
+            set_key();
+         }
+      }
+      else {
+         mHandled = false; // la touche est relâchée
       }
 
       flotte->step();
-      display( *flotte );
-
-      wait( delay );
-
-   } // while
-
+      display(*flotte);
+      wait(delay);
+   }
 }

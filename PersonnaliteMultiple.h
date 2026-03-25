@@ -10,7 +10,6 @@
 
 
 
-
 class PersonnaliteMultiple : public Comportement {
 private:
     std::vector<std::shared_ptr<Comportement>> comportements;

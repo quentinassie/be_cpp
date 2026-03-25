@@ -114,7 +114,7 @@ public:
    //collisions :
    bool estVivante() const { return vivante; }
    
-   void tuer() { vivante = false; }
+   void tuer() { vivante = false;};
 
    void setProbaCollisionFatale(double p);
    double getProbaCollisionFatale(){return probaCollisionFatale;};
