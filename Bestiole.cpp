@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <cmath>
 #include <cstring>
+#include <algorithm>
 
 #include <gregaire.h>
 #include <peureuse.h>
@@ -137,6 +138,13 @@ void Bestiole::draw(UImg& support)
    double xt = x + cos(orientation) * taille * AFF_SIZE / 2.1;
    double yt = y - sin(orientation) * taille * AFF_SIZE / 2.1;
 
+   //transparence camo
+   float camo = getCamoCoef();
+   if (camo < 0.0f) camo = 0.0f;
+   if (camo > 1.0f) camo = 1.0f;
+   float opacity = 1.0f - camo;   // 0.0 camo  => opaque  et 1.0 camo  => très transparent
+
+
    if (aNageoires()) {
       const unsigned char decoColor[3] = {208, 164, 250};
    
@@ -167,14 +175,14 @@ void Bestiole::draw(UImg& support)
          x1, y1,
          taille * AFF_SIZE * 1.1, taille * AFF_SIZE * 0.18,
          bodyAngle + finAngle,
-         decoColor
+         decoColor, opacity
       );
    
       support.draw_ellipse(
          x2, y2,
          taille * AFF_SIZE * 1.1, taille * AFF_SIZE * 0.18,
          bodyAngle - finAngle,
-         decoColor
+         decoColor, opacity
       );
    }
 
@@ -183,28 +191,46 @@ void Bestiole::draw(UImg& support)
       x, y,
       taille * AFF_SIZE, taille * AFF_SIZE / 5.0,
       -orientation / M_PI * 180.0,
-      comportement->getCouleur().data()
+      comportement->getCouleur().data(), opacity
    );
 
-   // CARAPACE : disque placé vers la queue
-   if (aCarapace()) {
-      double recul = taille * AFF_SIZE * 0.55;
+   // CARAPACE : hexagone type rubis placé vers la queue
+if (aCarapace()) {
+   double dx = std::cos(orientation);
+   double dy = -std::sin(orientation);
 
-      double xc = x - cos(orientation) * recul;
-      double yc = y + sin(orientation) * recul;
+   double px = -std::sin(orientation);
+   double py = -std::cos(orientation);
 
-      support.draw_circle(
-         xc, yc,
-         taille * AFF_SIZE * 0.65,
-         decoColor
-      );
-   }
+   double recul = taille * AFF_SIZE * 0.55;
+   double xc = x - dx * recul;
+   double yc = y - dy * recul;
+
+   double L = taille * AFF_SIZE * 1.0; // demi-longueur
+   double W = taille * AFF_SIZE * 0.68; // demi-largeur
+
+   // 6 sommets de l’hexagone
+   double x0 = xc + dx * L;            double y0 = yc + dy * L;            // pointe avant
+   double x1 = xc + dx * (0.35*L) + px * W;  double y1 = yc + dy * (0.35*L) + py * W;
+   double x2 = xc - dx * (0.35*L) + px * W;  double y2 = yc - dy * (0.35*L) + py * W;
+   double x3 = xc - dx * L;            double y3 = yc - dy * L;            // pointe arrière
+   double x4 = xc - dx * (0.35*L) - px * W;  double y4 = yc - dy * (0.35*L) - py * W;
+   double x5 = xc + dx * (0.35*L) - px * W;  double y5 = yc + dy * (0.35*L) - py * W;
+
+   // remplissage par triangles
+   support.draw_triangle(xc, yc, x0, y0, x1, y1, decoColor, opacity);
+   support.draw_triangle(xc, yc, x1, y1, x2, y2, decoColor, opacity);
+   support.draw_triangle(xc, yc, x2, y2, x3, y3, decoColor, opacity);
+   support.draw_triangle(xc, yc, x3, y3, x4, y4, decoColor, opacity);
+   support.draw_triangle(xc, yc, x4, y4, x5, y5, decoColor, opacity);
+   support.draw_triangle(xc, yc, x5, y5, x0, y0, decoColor, opacity);
+}
 
    // tête
    support.draw_circle(
       xt, yt,
       taille * AFF_SIZE / 2.0,
-      comportement->getCouleur().data()
+      comportement->getCouleur().data(), opacity
    );
 
    //yeux
@@ -231,8 +257,8 @@ void Bestiole::draw(UImg& support)
       double ex2 = hx - px * side + dx * forward;
       double ey2 = hy - py * side + dy * forward;
    
-      support.draw_circle(ex1, ey1, taille * AFF_SIZE * 0.22, eyeColor);
-      support.draw_circle(ex2, ey2, taille * AFF_SIZE * 0.22, eyeColor);
+      support.draw_circle(ex1, ey1, taille * AFF_SIZE * 0.22, eyeColor, opacity);
+      support.draw_circle(ex2, ey2, taille * AFF_SIZE * 0.22, eyeColor, opacity);
    }
 
    //oreilles
@@ -264,12 +290,12 @@ void Bestiole::draw(UImg& support)
       double x4 = x3 - px * (taille * AFF_SIZE * 0.12) + dx * len;
       double y4 = y3 - py * (taille * AFF_SIZE * 0.12) + dy * len;
    
-      support.draw_line(x1, y1, x2, y2, earColor);
+      support.draw_line(x1, y1, x2, y2, earColor, opacity);
       //support.draw_line(x1+1, y1, x2+1, y2, earColor);
-      support.draw_line(x1-1, y1, x2-1, y2, earColor);
+      support.draw_line(x1-1, y1, x2-1, y2, earColor, opacity);
 
-      support.draw_line(x3, y3, x4, y4, earColor);
-      support.draw_line(x3+1, y3, x4+1, y4, earColor);
+      support.draw_line(x3, y3, x4, y4, earColor, opacity);
+      support.draw_line(x3+1, y3, x4+1, y4, earColor, opacity);
       //support.draw_line(x3-1, y3, x4-1, y4, earColor);
 
    }
@@ -404,8 +430,6 @@ float Bestiole::getCamoCoef() const{
        Camouflage* camo = dynamic_cast<Camouflage*>(a.get());
        if (camo) {
            return camo->getCamouflage();
-       } else {
-           std::cout << "  dynamic_cast failed" << std::endl;
        }
    }
    return 0.0;

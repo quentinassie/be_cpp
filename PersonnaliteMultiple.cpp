@@ -16,8 +16,8 @@ PersonnaliteMultiple::PersonnaliteMultiple() {
 }
 
 void PersonnaliteMultiple::updateDirection(Bestiole& b, Milieu& m) {
-    // 1% de chance de changer de personnalité à chaque tour
-    if ((static_cast<double>(rand()) / RAND_MAX) < 0.01) {
+    // 3% de chance de changer de personnalité à chaque tour
+    if ((static_cast<double>(rand()) / RAND_MAX) < 0.03) {
         courant = comportements[rand() % comportements.size()];
     }
 
@@ -25,5 +25,6 @@ void PersonnaliteMultiple::updateDirection(Bestiole& b, Milieu& m) {
 }
 
 std::array<T,3> PersonnaliteMultiple::getCouleur() {
+    if (courant) return courant->getCouleur();
     return {0, 0, 0};
 }
