@@ -220,11 +220,26 @@ max = 1.0
 
 [collision]
 defaut = 0.4 # Probabilité de mort par collision
+**Remarques**:
+- Le detect_vision et le detect_audition minimal et maximal doivent être entre 0 et 1.
+- Le coefficient multiplicateur maximal pour les nageoires doit être supérieur à 1.
+- La valeur maximale pour la probabilité de mort par collision doit être supérieur à 1.
+- La capacité de camouflage minimale et maximale doivent être entre 0 et 1. 
 
 ---
 
 ## Tests
-// A finir
+### Tests de la classe Camouflage
+Des tests unitaires ont été développés pour valider le bon fonctionnement de l’accessoire Camouflage.
+
+#### Objectifs des tests :
+
+- Vérifier le clonage d’un accessoire Camouflage.
+
+- Vérifier l’ajout d’un camouflage à une bestiole.
+
+- Tester l’effet du camouflage sur la détection.
+
 ---
 
 ## Structure du projet
@@ -252,5 +267,8 @@ defaut = 0.4 # Probabilité de mort par collision
 ├── CImg.h                       # Bibliothèque graphique CImg
 ├── SimpleIni.h                  # Lecteur de fichiers INI
 ├── nageoires.png                # Image pour l’accessoire Nageoires
+├── tests/
+│   ├── Makefile                 # Compilation des tests
+│   ├── test_camouflage.cpp      # Tests unitaires pour Camouflage
 └── simulation.csv               # Fichier de statistiques 
 
