@@ -9,7 +9,6 @@ Simulation d'un écosystème de bestioles évoluant dans un aquarium 2D avec com
 - [Description](#description)
 - [Architecture](#architecture)
 - [Fonctionnalités Implémentées](#fonctionnalités-implémentées)
-- [Fonctionnalités Non Implémentées](#fonctionnalités-non-implémentées)
 - [Installation et Compilation](#installation-et-compilation)
 - [Configuration](#configuration)
 - [Tests](#tests)
@@ -130,6 +129,8 @@ Les colonnes sont écrites à chaque appel de Milieu::step().
 
 **Prévoyante** : vert
 
+**Personnalité multiple** : couleur qui change au cours du temps
+
 ### 7- Événements extérieurs / Contrôles clavier
 
 L’utilisateur peut interagir avec la simulation au clavier afin de provoquer certains événements extérieurs :
@@ -141,10 +142,6 @@ L’utilisateur peut interagir avec la simulation au clavier afin de provoquer c
 
 Ces événements permettent de modifier dynamiquement la population pendant l’exécution de la simulation.
 
----
-
-## Fonctionnalités Non Implémentées
-// A finir à la fin du projet
 ---
 
 ## Installation et Compilation
