@@ -169,58 +169,89 @@ Un Makefile est fourni:
 Tous les paramètres de la simulation sont configurés dans le fichier config.ini
 
 [population]
+
 nombre = 1 # Nombre initial de la population
 
 [population.comportements] # ditribution des comprtements
+
 gregaire = 0.4
+
 peureuse = 0.1
+
 prevoyante = 0.1
+
 kamikaze = 0.1
+
 personnalite_multiple = 0.0
 
 [general]
+
 naissance = 0.02 # Taux de naissance spontanée
+
 age_max = 800
+
 clonage = 0.0004 # Probabilité de clonage
+
 freq_mort = 0.0
 
 // Caractéristiques des Yeux
+
 [angle_vision]
+
 min = 20.0
+
 max = 120.0
 
 [distance_vision]
+
 min = 5.0
+
 max = 80.0
 
 //Caractéristiques des Oreilles
+
 [distance_audition]
+
 min = 30.0
+
 max = 100.0
 
 // Caractéristiques des Accessoires
+
 [camouflage]
+
 min = 0.3
+
 max = 1.0
 
 [carapace]
+
 slow = 0.3
+
 death = 3.0
 
 [nageoires]
+
 max=1.8
 
 [detect_vision]
+
 min = 0.0
+
 max = 1.0
 
 [detect_audition]
+
 min = 0.0
+
 max = 1.0
 
 [collision]
+
 defaut = 0.4 # Probabilité de mort par collision
+
 **Remarques**:
+
 - Le detect_vision et le detect_audition minimal et maximal doivent être entre 0 et 1.
 - Le coefficient multiplicateur maximal pour les nageoires doit être supérieur à 1.
 - La valeur maximale pour la probabilité de mort par collision doit être supérieur à 1.
