@@ -36,7 +36,6 @@ La simulation initiale permettait à des **bestioles** de se déplacer dans un a
 ### 1- Design Patterns
 
 **Stratégie**: L’interface Comportement définit updateDirection. Les classes Gregaire, Peureuse, Kamikaze, Prevoyante implémentent des stratégies de déplacement distinctes.
-**Prototype**: La classe Bestiole possède une méthode clone() qui copie en profondeur la bestiole (comportement, capteurs, accessoires). Utilisé pour le clonage spontané.
 
 ### 2- Classes principales
 
@@ -74,12 +73,12 @@ La simulation initiale permettait à des **bestioles** de se déplacer dans un a
 
 Deux capteurs permettent aux bestioles de percevoir leur environnement :
 
-**Yeux** :  Distance vision δᵥ, Angle de vision α,  Capacité de détection γᵥ ∈ [γᵥᵐⁱⁿ, γᵥᵐᵃˣ], Bestiole A détecte la Bestiole B si γᵥ(A) > ψ(B)
+**Yeux** :  Distance vision δᵥ, Angle de vision α,  Capacité de détection γᵥ ∈ [γᵥᵐⁱⁿ, γᵥᵐᵃˣ], Bestiole A détecte la Bestiole B si γᵥ(A) > ψ(B).
 
-**Oreilles** :  Distance audition δₐ, Capacité de détection γₐ ∈ [γₐᵐⁱⁿ, γₐᵐᵃˣ], Bestiole A détecte la Bestiole B si γₐ(A) > ψ(B) 
+**Oreilles** :  Distance audition δₐ, Capacité de détection γₐ ∈ [γₐᵐⁱⁿ, γₐᵐᵃˣ], Bestiole A détecte la Bestiole B si γₐ(A) > ψ(B).
 
 - Les bornes sont définies globalement dans config.ini ; chaque bestiole reçoit des valeurs aléatoires dans ces intervalles.
-- Chaque bestiole peut avoir 0 à plusieurs capteurs avec un maximum pour chaque capteur.
+- Chaque bestiole peut avoir 0 à plusieurs capteurs, avec au plus un de chaque.
 
 ### 3- Accessoires
 
@@ -89,7 +88,7 @@ Deux capteurs permettent aux bestioles de percevoir leur environnement :
 
 **Nageoires** : augmente temporairement la vitesse.
 
-- Chaque bestiole peut avoir 0 à plusieurs accessoires avec un maximum pour chaque accessoire.
+- Chaque bestiole peut avoir 0 à plusieurs accessoires, avec au plus un de chaque.
 
 ### 4- Gestion de la Population
 
