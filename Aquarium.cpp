@@ -47,6 +47,7 @@ void Aquarium::run(void)
             set_key();
          }
 
+         //mort aléatoire key M
          if ((k == 'm' || k == 'M') && !mHandled) {
             auto liste = flotte->getListBestioles();
             if (!liste.empty()) {
@@ -56,6 +57,14 @@ void Aquarium::run(void)
             mHandled = true;
             set_key();
          }
+
+         //changement comportement aleatoire key C
+         if ((k == 'c' || k == 'C') && !mHandled) {
+            flotte->changerComportementAleatoire();
+            mHandled = true;
+            set_key();
+         }
+
       }
       else {
          mHandled = false; // la touche est relâchée

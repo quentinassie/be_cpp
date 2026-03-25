@@ -220,3 +220,14 @@ void Milieu::naissanceExterieure(){
    b->initCoords(width, height);
    addMember(b);
 }
+
+//pour le changement en cas d'evenement exterieur (touche c)
+void Milieu::changerComportementAleatoire()
+{
+   auto& liste = listeBestioles;
+   if (liste.empty()) return;
+
+   int i = std::rand() % liste.size();
+   liste[i]->setComportement(factory.getComportementAleatoire());
+   std::cout<<liste[i]<<" a changé de comportement"<<endl;
+}

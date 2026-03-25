@@ -264,3 +264,17 @@ std::shared_ptr<Bestiole> BestioleFactory::createBestioleAleatoire() {
 
     return createBestiole("gregaire");
 }
+
+//pour le changement en cas d'evenement exterieur (touche c)
+std::shared_ptr<Comportement> BestioleFactory::getComportementAleatoire()
+{
+    int com = randomInt(0, 4);
+
+    switch (com) {
+        case 0: return comportement_dict["gregaire"];
+        case 1: return comportement_dict["peureuse"];
+        case 2: return comportement_dict["kamikaze"];
+        case 3: return comportement_dict["prevoyante"];
+        default: return comportement_dict["personnalitemultiple"];
+    }
+}

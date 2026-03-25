@@ -56,6 +56,8 @@ public :
 
    void toggleDebugPerception() { debugPerception = !debugPerception; }
    bool isDebugPerception() const { return debugPerception; }
+
+   void changerComportementAleatoire();
 };
 
 

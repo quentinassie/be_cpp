@@ -62,6 +62,8 @@ struct BestioleFactory {
 
     int randomInt(int min, int max);
     double randomDouble(double min, double max);
+
+    std::shared_ptr<Comportement> getComportementAleatoire();
 };
 
 #endif
