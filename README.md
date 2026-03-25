@@ -131,6 +131,17 @@ Les colonnes sont écrites à chaque appel de Milieu::step().
 
 **Prévoyante** : vert
 
+### 7- Événements extérieurs / Contrôles clavier
+
+L’utilisateur peut interagir avec la simulation au clavier afin de provoquer certains événements extérieurs :
+
+P : active ou désactive l’affichage debug des perceptions.
+M : tue une bestiole choisie aléatoirement.
+N : fait naître une nouvelle bestiole aléatoire.
+C : change aléatoirement le comportement d’une bestiole existante.
+
+Ces événements permettent de modifier dynamiquement la population pendant l’exécution de la simulation.
+
 ---
 
 ## Fonctionnalités Non Implémentées
